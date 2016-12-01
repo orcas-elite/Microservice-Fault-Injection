@@ -6,6 +6,7 @@
 	<artifactId>proxy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+  	<name>JInjectProxy</name>
 
 	<name>proxy</name>
 	<url>http://maven.apache.org</url>
