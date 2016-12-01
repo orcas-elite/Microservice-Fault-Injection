@@ -1,27 +1,18 @@
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.Random;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.continuation.Continuation;
-import org.eclipse.jetty.continuation.ContinuationSupport;
 import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-public class Main extends AbstractHandler {
-	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		
-//		Random rd = new Random();
-//		if(rd.nextBoolean())
-//		{
-//			System.out.println("return");
-//			return;
-//		}
 
+public class TestServerMain extends AbstractHandler {
+	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {		
 		response.setContentType("text/html;charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		baseRequest.setHandled(true);
@@ -32,11 +23,11 @@ public class Main extends AbstractHandler {
 		System.out.println("Starting server");
 
 		Server server = new Server(8080);
-		server.setHandler(new Main());
+		server.setHandler(new TestServerMain());
 
 		try {
 			server.start();
-			System.out.println("Started");
+			System.out.println("Started TestServer");
 			server.join();
 		} catch (Exception e) {
 			e.printStackTrace();
