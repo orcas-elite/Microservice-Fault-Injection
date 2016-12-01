@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>guidedresearch</groupId>
+  <artifactId>test</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Jetty HelloWorld</name>
+
+  <properties>
+      <!-- Adapt this to a version found on
+           http://central.maven.org/maven2/org/eclipse/jetty/jetty-maven-plugin/
+        -->
+      <jettyVersion>9.3.9.v20160517</jettyVersion>
+		<jdk.version>1.8</jdk.version>
+  </properties>
+
+  <dependencies>
+   <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.aggregate/jetty-all -->
+	<dependency>
+	    <groupId>org.eclipse.jetty.aggregate</groupId>
+	    <artifactId>jetty-all</artifactId>
+	    <version>9.0.0.RC2</version>
+	</dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+     <!--<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution><goals><goal>java</goal></goals></execution>
+        </executions>
+        <configuration>
+          <mainClass>Main</mainClass>
+        </configuration>
+      </plugin> -->
+      
+	         <!--       <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <warName>${project.artifactId}-${project.version}</warName>
+                    <archive>
+                        <manifest>
+                            <mainClass>Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+   <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>main-class-placement</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <tasks>
+                                <move todir="${project.build.directory}/${project.artifactId}-${project.version}/">
+                                    <fileset dir="${project.build.directory}/classes/">
+                                        <include name="Main.class" />
+                                    </fileset>
+                                </move>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>jetty-classpath</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>org.eclipse.jetty,javax.servlet</includeGroupIds>
+                            <excludeArtifactIds>jsp-api,jstl</excludeArtifactIds>
+                            <excludes>META-INF/ECLIPSEF.*</excludes>
+                            <outputDirectory>
+                                ${project.build.directory}/${project.artifactId}-${project.version}
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+	      
+        <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	        <archive>
+	          <manifest>
+	            <addClasspath>true</addClasspath>
+	            <mainClass>guidedresearch.test.HelloWorld</mainClass>
+	          </manifest>
+	        </archive>
+	        <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	        </descriptorRefs>
+	      </configuration>
+    	</plugin>-->
+    	
+    	
+       <!-- <plugin>
+	      
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <version>3.0.2</version>
+	      <configuration>
+		    <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	      	</descriptorRefs>
+	        <archive>
+	          <manifest>
+	            <addClasspath>true</addClasspath>
+          		<mainClass>guidedresearch.test.HelloWorld</mainClass>
+	          </manifest>
+	        </archive>
+	      </configuration>
+	    </plugin>-->
+    </plugins>
+  </build>
+</project>
