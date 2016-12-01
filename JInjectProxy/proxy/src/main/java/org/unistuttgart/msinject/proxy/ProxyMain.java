@@ -33,40 +33,7 @@ public class ProxyMain extends ProxyServlet { // TODO Transparent
 		if(rd.nextBoolean())
 			return;
 
-		// final ServletRequest req2 = req;
-		// final ServletResponse res2 = res;
-
-		// Not working
-		// Thread t = new Thread(new Runnable() {
-		//
-		// public void run() {
-		// // TODO Auto-generated method stub
-		//
-		// try {
-		// Thread.sleep(3000);
-		// } catch (InterruptedException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
-		// System.out.println("Sleeped");
-		//
-		// try {
-		// ProxyMain.super.service(req2, res2);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// });
-
-		// Continuation cc = ContinuationSupport.getContinuation(req);
-		// cc.setTimeout(2000);
-		// cc.suspend();
-		//
-		// if (!cc.isInitial()) {
-		// cc.complete();
 		super.service(req, res);
-		// }
 	}
 
 	@Override
@@ -110,15 +77,6 @@ public class ProxyMain extends ProxyServlet { // TODO Transparent
 		}
 	}
 
-	// public class ProxyServletHandler extends ServletHandler {
-	// @Override
-	// public void handle(String target, org.eclipse.jetty.server.Request
-	// baseRequest, HttpServletRequest request,
-	// HttpServletResponse response) throws IOException, ServletException {
-	//
-	// }
-	// }
-
 	public static void main(String... args) throws Exception {
 
 		Server server = new Server(8081);
@@ -131,59 +89,3 @@ public class ProxyMain extends ProxyServlet { // TODO Transparent
 		server.join();
 	}
 }
-
-// public class ProxyMain extends AbstractHandler {
-
-// private static HttpClient httpClient = new HttpClient();
-//
-// public void handle(String target, Request baseRequest, HttpServletRequest
-// request, HttpServletResponse response)
-// throws IOException, ServletException {
-//
-// System.out.println("baseRequest " + baseRequest);
-// System.out.println("request " + request);
-//
-// try {
-// ContentResponse resp = httpClient.GET("http://0.0.0.0:8080/");
-// System.out.println("ContentResponse " + resp);
-//
-// } catch (Exception e) {
-// System.err.println("Proxy request failed");
-// e.printStackTrace();
-// }
-//
-// response.setContentType("text/html;charset=utf-8");
-// response.setStatus(HttpServletResponse.SC_OK);
-// baseRequest.setHandled(true);
-// response.getWriter().println("<h1>Hello Proxy</h1>");
-// }
-//
-// public static void main(String[] args) {
-//
-// try {
-// httpClient.start();
-// System.out.println("HTTP client started");
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-//
-// System.out.println("Starting Proxy");
-//
-// Server server = new Server(8081);
-// server.setHandler(new ProxyMain());
-//
-// try {
-// server.start();
-// System.out.println("Proxy Started");
-// server.join();
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-//
-// try {
-// httpClient.stop();
-// System.out.println("HTTP client stopped");
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-// }

@@ -8,7 +8,6 @@
 	<packaging>jar</packaging>
   	<name>JInjectProxy</name>
 
-	<name>proxy</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
