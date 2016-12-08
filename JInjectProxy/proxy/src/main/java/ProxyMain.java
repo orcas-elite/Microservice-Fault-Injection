@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.util.Random;
 
@@ -14,7 +13,6 @@ import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
 
 public class ProxyMain extends Transparent {
 	private static final long serialVersionUID = 1L;
@@ -57,18 +55,35 @@ public class ProxyMain extends Transparent {
 	}
 
 	public static void main(String... args) throws Exception {
-		Server server = new Server(8081);
+		if (args.length != 3) {
+			showHelp();
+			return;
+		}
 
-		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath("/");
-		server.setHandler(context);
+		try {
+			int controlPort = Integer.parseInt(args[0]);
+			int proxyPort = Integer.parseInt(args[1]);
+			String proxyTo = args[2];
+			
+			Server proxyServer = new Server(proxyPort);
+			ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+			context.setContextPath("/");
+			proxyServer.setHandler(context);
+			ServletHolder helloServletHolder = new ServletHolder(new ProxyMain());
+			helloServletHolder.setInitParameter("proxyTo", proxyTo);
+			helloServletHolder.setInitParameter("prefix", "/");
+			context.addServlet(helloServletHolder, "/*");
+			proxyServer.start();
+			
+			proxyServer.join();
+		} catch (Exception e) {
+			e.printStackTrace();
+			showHelp();
+		}
+	}
 
-		ServletHolder helloServletHolder = new ServletHolder(new ProxyMain());
-		helloServletHolder.setInitParameter("proxyTo", "http://0.0.0.0:8080/");
-		helloServletHolder.setInitParameter("prefix", "/");
-		context.addServlet(helloServletHolder, "/*");
-
-		server.start();
-		server.join();
+	private static void showHelp() {
+		System.out.println("Usage: [control-port] [proxy-listen-port] [proxyTo]");
+		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/");
 	}
 }
