@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+
 
 public class ProxyMain extends Transparent {
 	private static final long serialVersionUID = 1L;

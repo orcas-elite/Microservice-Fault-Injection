@@ -13,12 +13,22 @@ import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class Proxy extends Transparent {
+	private static final Logger logger = LoggerFactory.getLogger(Proxy.class);
+	
 	private static final long serialVersionUID = 1L;
 
-	private boolean dropRequests = false;
-	private boolean delayRequests = false;
+	public boolean dropEnabled = false;
+	public double dropProbability = 0.0;
+	
+	public boolean delayEnabled = false;
+	public double delayProbability = 0.0;
+	public int delayTimeMin = 0;
+	public int delayTimeRandSpan = 0;
 
 	private final Random rd = new Random();
 	private final Server proxyServer;
@@ -47,33 +57,41 @@ public class Proxy extends Transparent {
 	}
 
 	
+	public void setDrop(boolean enable, double probability) {
+		dropEnabled = enable;
+		dropProbability = probability;
+	}
+	
+	public void setDelay(boolean enable, double probability, int delayMin, int delayMax) {
+		delayEnabled = enable;
+		delayProbability = probability;
+		delayTimeMin = delayMin;
+		delayTimeRandSpan = delayMax - delayMin + 1;
+	}
 	
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("proxyTo " + config.getInitParameter("proxyTo"));
+		logger.info("Starting init proxy to " + config.getInitParameter("proxyTo"));
 		super.init(config);
-		System.out.println("Proxy init done");
+		logger.info("Proxy init done");
 	}
 
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		// System.out.println(">>> got a request !");
-
-		// Drop test
-		if (dropRequests && rd.nextBoolean())
-			return;
+		// Drop packages
+		if (dropEnabled && rd.nextDouble() <= dropProbability)
+			return;  // TODO Better drop
 
 		super.service(req, res);
 	}
 
 	@Override
 	protected void customizeProxyRequest(Request proxyRequest, HttpServletRequest request) {
-		if (delayRequests) {
+		// Delay packages
+		if (delayEnabled && rd.nextDouble() <= delayProbability) {
 			try {
-				// System.out.println("Start wait");
-				Thread.sleep(1000);
-				// System.out.println("End wait");
+				Thread.sleep(delayTimeMin + rd.nextInt(delayTimeRandSpan));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

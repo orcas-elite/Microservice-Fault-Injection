@@ -1,0 +1,103 @@
+2016-12-08 13:10:46,989 DEBUG [main] org.eclipse.jetty.util.log Log.java:173 - Logging to Logger[org.eclipse.jetty.util.log] via org.eclipse.jetty.util.log.Slf4jLog
+2016-12-08 13:10:46,997 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.Server@5ba23b66 added {qtp431687835{STOPPED,8<=0<=200,i=0,q=-1},AUTO}
+2016-12-08 13:10:47,007 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - HttpConnectionFactory@2812cbfa{HTTP/1.1} added {HttpConfiguration@2acf57e3{32768,8192/8192,https://:0,[]},POJO}
+2016-12-08 13:10:47,010 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{null}{0.0.0.0:0} added {org.eclipse.jetty.server.Server@5ba23b66,UNMANAGED}
+2016-12-08 13:10:47,010 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{null}{0.0.0.0:0} added {qtp431687835{STOPPED,8<=0<=200,i=0,q=-1},AUTO}
+2016-12-08 13:10:47,011 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{null}{0.0.0.0:0} added {org.eclipse.jetty.util.thread.TimerScheduler@566776ad,AUTO}
+2016-12-08 13:10:47,011 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{null}{0.0.0.0:0} added {org.eclipse.jetty.io.ArrayByteBufferPool@6108b2d7,POJO}
+2016-12-08 13:10:47,011 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{null}{0.0.0.0:0} added {HttpConnectionFactory@2812cbfa{HTTP/1.1},AUTO}
+2016-12-08 13:10:47,013 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:0} added {org.eclipse.jetty.server.ServerConnector$ServerConnectorManager@13969fbe,MANAGED}
+2016-12-08 13:10:47,013 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.Server@5ba23b66 added {ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:8081},AUTO}
+2016-12-08 13:10:47,032 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.session.SessionHandler@97e1986 added {org.eclipse.jetty.server.session.HashSessionManager@26f67b76,AUTO}
+2016-12-08 13:10:47,033 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - o.e.j.s.ServletContextHandler@153f5a29{/,null,null} added {org.eclipse.jetty.server.session.SessionHandler@97e1986,AUTO}
+2016-12-08 13:10:47,036 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.session.SessionHandler@97e1986 added {org.eclipse.jetty.servlet.ServletHandler@32e6e9c3,AUTO}
+2016-12-08 13:10:47,037 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.Server@5ba23b66 added {o.e.j.s.ServletContextHandler@153f5a29{/,null,null},AUTO}
+2016-12-08 13:10:47,039 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.servlet.ServletHandler@32e6e9c3 added {Proxy-519821334@be5a7c9b==Proxy,0,true,AUTO}
+2016-12-08 13:10:47,040 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.servlet.ServletHandler@32e6e9c3 added {[/*]=>Proxy-519821334,POJO}
+2016-12-08 13:10:47,041 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1282 - filterNameMap={}
+2016-12-08 13:10:47,042 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1283 - pathFilters=null
+2016-12-08 13:10:47,042 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1284 - servletFilterMap=null
+2016-12-08 13:10:47,042 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1285 - servletPathMap={/*=Proxy-519821334@be5a7c9b==Proxy,0,true}
+2016-12-08 13:10:47,042 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1286 - servletNameMap={Proxy-519821334=Proxy-519821334@be5a7c9b==Proxy,0,true}
+2016-12-08 13:10:47,042 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.server.Server@5ba23b66
+2016-12-08 13:10:47,043 INFO  [main] org.eclipse.jetty.server.Server Server.java:288 - jetty-9.0.0.RC2
+2016-12-08 13:10:47,057 DEBUG [main] org.eclipse.jetty.server.handler.AbstractHandler AbstractHandler.java:57 - starting org.eclipse.jetty.server.Server@5ba23b66
+2016-12-08 13:10:47,057 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting qtp431687835{STOPPED,8<=0<=200,i=0,q=-1}
+2016-12-08 13:10:47,060 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED qtp431687835{STARTED,8<=8<=200,i=7,q=0}
+2016-12-08 13:10:47,060 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting o.e.j.s.ServletContextHandler@153f5a29{/,null,null}
+2016-12-08 13:10:47,064 DEBUG [main] org.eclipse.jetty.server.handler.AbstractHandler AbstractHandler.java:57 - starting o.e.j.s.ServletContextHandler@153f5a29{/,null,STARTING}
+2016-12-08 13:10:47,065 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.server.session.SessionHandler@97e1986
+2016-12-08 13:10:47,065 DEBUG [main] org.eclipse.jetty.server.handler.AbstractHandler AbstractHandler.java:57 - starting org.eclipse.jetty.server.session.SessionHandler@97e1986
+2016-12-08 13:10:47,065 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.server.session.HashSessionManager@26f67b76
+2016-12-08 13:10:47,066 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.server.session.HashSessionIdManager@46d56d67
+2016-12-08 13:10:47,067 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.server.session.HashSessionIdManager@46d56d67
+2016-12-08 13:10:47,067 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.server.Server@5ba23b66 added {org.eclipse.jetty.server.session.HashSessionIdManager@46d56d67,MANAGED}
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.server.session.HashSessionManager@26f67b76
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.servlet.ServletHandler@32e6e9c3
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1282 - filterNameMap={}
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1283 - pathFilters=null
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1284 - servletFilterMap=null
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1285 - servletPathMap={/*=Proxy-519821334@be5a7c9b==Proxy,0,true}
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.servlet.ServletHandler ServletHandler.java:1286 - servletNameMap={Proxy-519821334=Proxy-519821334@be5a7c9b==Proxy,0,true}
+2016-12-08 13:10:47,068 DEBUG [main] org.eclipse.jetty.server.handler.AbstractHandler AbstractHandler.java:57 - starting org.eclipse.jetty.servlet.ServletHandler@32e6e9c3
+2016-12-08 13:10:47,069 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.servlet.ServletHandler@32e6e9c3
+2016-12-08 13:10:47,069 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.server.session.SessionHandler@97e1986
+2016-12-08 13:10:47,069 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting Proxy-519821334@be5a7c9b==Proxy,0,true
+2016-12-08 13:10:47,070 DEBUG [main] org.eclipse.jetty.servlet.ServletHolder ServletHolder.java:516 - Filter.init Proxy@39c0f4a
+2016-12-08 13:10:47,071 INFO  [main] Proxy Proxy.java:75 - Starting init proxy to http://0.0.0.0:8080/
+2016-12-08 13:10:47,074 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.client.HttpClient@239963d8
+2016-12-08 13:10:47,074 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.client.HttpClient@239963d8 added {Proxy-519821334{STOPPED,8<=0<=256,i=0,q=-1},AUTO}
+2016-12-08 13:10:47,074 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.client.HttpClient@239963d8 added {org.eclipse.jetty.io.MappedByteBufferPool@31ef45e3,POJO}
+2016-12-08 13:10:47,075 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.client.HttpClient@239963d8 added {org.eclipse.jetty.util.thread.ScheduledExecutorScheduler@14bf9759,AUTO}
+2016-12-08 13:10:47,076 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - org.eclipse.jetty.client.HttpClient@239963d8 added {org.eclipse.jetty.client.HttpClient$ClientSelectorManager@4f7d0008,AUTO}
+2016-12-08 13:10:47,080 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting Proxy-519821334{STOPPED,8<=0<=256,i=0,q=-1}
+2016-12-08 13:10:47,083 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED Proxy-519821334{STARTED,8<=8<=256,i=7,q=0}
+2016-12-08 13:10:47,083 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.util.thread.ScheduledExecutorScheduler@14bf9759
+2016-12-08 13:10:47,084 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.util.thread.ScheduledExecutorScheduler@14bf9759
+2016-12-08 13:10:47,084 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.client.HttpClient$ClientSelectorManager@4f7d0008
+2016-12-08 13:10:47,085 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.io.SelectorManager$ManagedSelector@4bec1f0c keys=-1 selected=-1
+2016-12-08 13:10:47,087 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.io.SelectorManager$ManagedSelector@4bec1f0c keys=0 selected=0
+2016-12-08 13:10:47,087 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - Proxy-519821334{STARTED,8<=8<=256,i=8,q=0} dispatched org.eclipse.jetty.io.SelectorManager$ManagedSelector@4bec1f0c keys=0 selected=0
+2016-12-08 13:10:47,087 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.client.HttpClient$ClientSelectorManager@4f7d0008
+2016-12-08 13:10:47,088 INFO  [main] org.eclipse.jetty.client.HttpClient HttpClient.java:221 - Started org.eclipse.jetty.client.HttpClient@239963d8
+2016-12-08 13:10:47,088 DEBUG [Proxy-519821334-19-selector-0] org.eclipse.jetty.io.SelectorManager SelectorManager.java:416 - Starting Thread[Proxy-519821334-19-selector-0,5,main] on org.eclipse.jetty.io.SelectorManager$ManagedSelector@4bec1f0c keys=0 selected=0
+2016-12-08 13:10:47,088 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.client.HttpClient@239963d8
+2016-12-08 13:10:47,088 DEBUG [Proxy-519821334-19-selector-0] org.eclipse.jetty.io.SelectorManager SelectorManager.java:441 - Selector loop waiting on select
+2016-12-08 13:10:47,088 INFO  [main] Proxy.519821334 ProxyServlet.java:607 - Proxy-519821334 @ / to http://0.0.0.0:8080/
+2016-12-08 13:10:47,088 INFO  [main] Proxy Proxy.java:77 - Proxy init done
+2016-12-08 13:10:47,089 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED Proxy-519821334@be5a7c9b==Proxy,0,true
+2016-12-08 13:10:47,089 INFO  [main] org.eclipse.jetty.server.handler.ContextHandler ContextHandler.java:725 - started o.e.j.s.ServletContextHandler@153f5a29{/,null,AVAILABLE}
+2016-12-08 13:10:47,089 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED o.e.j.s.ServletContextHandler@153f5a29{/,null,AVAILABLE}
+2016-12-08 13:10:47,089 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:8081}
+2016-12-08 13:10:47,093 DEBUG [main] org.eclipse.jetty.util.component.ContainerLifeCycle ContainerLifeCycle.java:297 - ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:8081} added {sun.nio.ch.ServerSocketChannelImpl[/0:0:0:0:0:0:0:0:8081],POJO}
+2016-12-08 13:10:47,093 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.util.thread.TimerScheduler@566776ad
+2016-12-08 13:10:47,093 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.util.thread.TimerScheduler@566776ad
+2016-12-08 13:10:47,093 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting HttpConnectionFactory@2812cbfa{HTTP/1.1}
+2016-12-08 13:10:47,094 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED HttpConnectionFactory@2812cbfa{HTTP/1.1}
+2016-12-08 13:10:47,094 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.server.ServerConnector$ServerConnectorManager@13969fbe
+2016-12-08 13:10:47,094 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.io.SelectorManager$ManagedSelector@617faa95 keys=-1 selected=-1
+2016-12-08 13:10:47,094 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.io.SelectorManager$ManagedSelector@617faa95 keys=0 selected=0
+2016-12-08 13:10:47,094 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=8,q=0} dispatched org.eclipse.jetty.io.SelectorManager$ManagedSelector@617faa95 keys=0 selected=0
+2016-12-08 13:10:47,095 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.io.SelectorManager$ManagedSelector@1e127982 keys=-1 selected=-1
+2016-12-08 13:10:47,095 DEBUG [qtp431687835-10-selector-0] org.eclipse.jetty.io.SelectorManager SelectorManager.java:416 - Starting Thread[qtp431687835-10-selector-0,5,main] on org.eclipse.jetty.io.SelectorManager$ManagedSelector@617faa95 keys=0 selected=0
+2016-12-08 13:10:47,095 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.io.SelectorManager$ManagedSelector@1e127982 keys=0 selected=0
+2016-12-08 13:10:47,095 DEBUG [qtp431687835-10-selector-0] org.eclipse.jetty.io.SelectorManager SelectorManager.java:441 - Selector loop waiting on select
+2016-12-08 13:10:47,095 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=7,q=0} dispatched org.eclipse.jetty.io.SelectorManager$ManagedSelector@1e127982 keys=0 selected=0
+2016-12-08 13:10:47,095 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.io.SelectorManager$ManagedSelector@60c6f5b keys=-1 selected=-1
+2016-12-08 13:10:47,095 DEBUG [qtp431687835-11-selector-1] org.eclipse.jetty.io.SelectorManager SelectorManager.java:416 - Starting Thread[qtp431687835-11-selector-1,5,main] on org.eclipse.jetty.io.SelectorManager$ManagedSelector@1e127982 keys=0 selected=0
+2016-12-08 13:10:47,096 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.io.SelectorManager$ManagedSelector@60c6f5b keys=0 selected=0
+2016-12-08 13:10:47,096 DEBUG [qtp431687835-11-selector-1] org.eclipse.jetty.io.SelectorManager SelectorManager.java:441 - Selector loop waiting on select
+2016-12-08 13:10:47,097 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=6,q=0} dispatched org.eclipse.jetty.io.SelectorManager$ManagedSelector@60c6f5b keys=0 selected=0
+2016-12-08 13:10:47,097 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:184 - starting org.eclipse.jetty.io.SelectorManager$ManagedSelector@2038ae61 keys=-1 selected=-1
+2016-12-08 13:10:47,097 DEBUG [qtp431687835-12-selector-2] org.eclipse.jetty.io.SelectorManager SelectorManager.java:416 - Starting Thread[qtp431687835-12-selector-2,5,main] on org.eclipse.jetty.io.SelectorManager$ManagedSelector@60c6f5b keys=0 selected=0
+2016-12-08 13:10:47,097 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.io.SelectorManager$ManagedSelector@2038ae61 keys=0 selected=0
+2016-12-08 13:10:47,098 DEBUG [qtp431687835-12-selector-2] org.eclipse.jetty.io.SelectorManager SelectorManager.java:441 - Selector loop waiting on select
+2016-12-08 13:10:47,098 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=5,q=0} dispatched org.eclipse.jetty.io.SelectorManager$ManagedSelector@2038ae61 keys=0 selected=0
+2016-12-08 13:10:47,098 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.server.ServerConnector$ServerConnectorManager@13969fbe
+2016-12-08 13:10:47,098 DEBUG [qtp431687835-13-selector-3] org.eclipse.jetty.io.SelectorManager SelectorManager.java:416 - Starting Thread[qtp431687835-13-selector-3,5,main] on org.eclipse.jetty.io.SelectorManager$ManagedSelector@2038ae61 keys=0 selected=0
+2016-12-08 13:10:47,098 DEBUG [qtp431687835-13-selector-3] org.eclipse.jetty.io.SelectorManager SelectorManager.java:441 - Selector loop waiting on select
+2016-12-08 13:10:47,099 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=4,q=0} dispatched org.eclipse.jetty.server.AbstractConnector$Acceptor@544fe44c
+2016-12-08 13:10:47,099 DEBUG [main] org.eclipse.jetty.util.thread.QueuedThreadPool QueuedThreadPool.java:335 - qtp431687835{STARTED,8<=8<=200,i=4,q=1} dispatched org.eclipse.jetty.server.AbstractConnector$Acceptor@31610302
+2016-12-08 13:10:47,099 INFO  [main] org.eclipse.jetty.server.ServerConnector AbstractConnector.java:264 - Started ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:8081}
+2016-12-08 13:10:47,099 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED ServerConnector@2f7a2457{HTTP/1.1}{0.0.0.0:8081}
+2016-12-08 13:10:47,100 DEBUG [main] org.eclipse.jetty.util.component.AbstractLifeCycle AbstractLifeCycle.java:177 - STARTED org.eclipse.jetty.server.Server@5ba23b66

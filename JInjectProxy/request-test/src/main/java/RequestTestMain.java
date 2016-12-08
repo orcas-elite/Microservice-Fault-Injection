@@ -10,7 +10,7 @@ public class RequestTestMain {
 		}
 		
 		String requestUrl = args[0];
-		int testRuns = 1000;
+		int testRuns = 10;
 
 		HttpClient httpClient = new HttpClient();
 		httpClient.start();
