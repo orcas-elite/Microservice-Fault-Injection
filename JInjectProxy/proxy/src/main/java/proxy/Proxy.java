@@ -1,3 +1,4 @@
+package proxy;
 
 import java.io.IOException;
 import java.util.Random;
@@ -22,6 +23,8 @@ public class Proxy extends Transparent {
 	
 	private static final long serialVersionUID = 1L;
 
+	public boolean started = true;
+	
 	public boolean dropEnabled = false;
 	public double dropProbability = 0.0;
 	
@@ -75,6 +78,7 @@ public class Proxy extends Transparent {
 		logger.info("Starting init proxy to " + config.getInitParameter("proxyTo"));
 		super.init(config);
 		logger.info("Proxy init done");
+		started = true;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.jetty.client.api.ProxyConfiguration;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
 import org.eclipse.jetty.server.Server;
@@ -16,6 +17,9 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+
+import proxy.Proxy;
+import proxycontrol.ProxyControl;
 
 public class Main extends Transparent {
 	private static final long serialVersionUID = 1L;
@@ -64,31 +68,33 @@ public class Main extends Transparent {
 		}
 
 		Proxy proxy = null;
-		Server server = null;
+		Server proxyControlServer = null;
 		try {
 			int controlPort = Integer.parseInt(args[0]);
 			int proxyPort = Integer.parseInt(args[1]);
 			String proxyTo = args[2];
 
-			ResourceConfig config = new ResourceConfig();
-			config.packages("jettyjerseytutorial");
-			ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-			server = new Server(controlPort);
-			ServletContextHandler context = new ServletContextHandler(server, "/*");
-			context.addServlet(servlet, "/*");
-			server.start();
-
 			// Start proxy
 			proxy = Proxy.startProxy(proxyPort, proxyTo);
-			// proxy.joinProxy();
+			
+			// Start control server
+			ResourceConfig config = new ResourceConfig();
+			config.packages("proxycontrol");
+			ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+			proxyControlServer = new Server(controlPort);
+			ServletContextHandler context = new ServletContextHandler(proxyControlServer, "/*");
+			context.addServlet(servlet, "/*");
+			proxyControlServer.start();
+			ProxyControl.proxy = proxy;
 
-			server.join();
+			proxy.joinProxy();
+			//proxyControlServer.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 			showHelp();
 		} finally {
-			if (server != null)
-				server.destroy();
+			if (proxyControlServer != null)
+				proxyControlServer.destroy();
 			if (proxy != null)
 				proxy.destroy();
 		}
