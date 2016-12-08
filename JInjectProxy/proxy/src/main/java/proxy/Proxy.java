@@ -5,9 +5,8 @@ import java.util.Random;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
@@ -84,12 +83,15 @@ public class Proxy extends Transparent {
 	}
 
 	@Override
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+	protected void service(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 		// Drop packages
-		if (dropEnabled && rd.nextDouble() <= dropProbability)
-			return;  // TODO Better drop
+		if (dropEnabled && rd.nextDouble() <= dropProbability) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return; // TODO Better drop
+		}
 
-		super.service(req, res);
+		super.service(request, response);
 	}
 
 	@Override
