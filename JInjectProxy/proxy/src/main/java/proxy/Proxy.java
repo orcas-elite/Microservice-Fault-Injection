@@ -23,15 +23,15 @@ public class Proxy extends Transparent {
 	
 	private static final long serialVersionUID = 1L;
 
-	public boolean started = true;
+	private boolean started = true;
 	
-	public boolean dropEnabled = false;
-	public double dropProbability = 0.0;
+	private boolean dropEnabled = false;
+	private double dropProbability = 0.0;
 	
-	public boolean delayEnabled = false;
-	public double delayProbability = 0.0;
-	public int delayTimeMin = 0;
-	public int delayTimeRandSpan = 0;
+	private boolean delayEnabled = false;
+	private double delayProbability = 0.0;
+	private int delayTimeMin = 0;
+	private int delayTimeRandSpan = 0;
 
 	private final Random rd = new Random();
 	private final Server proxyServer;
@@ -61,11 +61,13 @@ public class Proxy extends Transparent {
 
 	
 	public void setDrop(boolean enable, double probability) {
+		logger.info(String.format("Proxy setDrop %b %f", enable, probability));
 		dropEnabled = enable;
 		dropProbability = probability;
 	}
 	
 	public void setDelay(boolean enable, double probability, int delayMin, int delayMax) {
+		logger.info(String.format("Proxy setDelay %b %f %d %d", enable, probability, delayMin, delayMax));
 		delayEnabled = enable;
 		delayProbability = probability;
 		delayTimeMin = delayMin;
@@ -101,5 +103,9 @@ public class Proxy extends Transparent {
 			}
 		}
 		super.customizeProxyRequest(proxyRequest, request);
+	}
+
+	public boolean isStarted() {
+		return started;
 	}
 }
