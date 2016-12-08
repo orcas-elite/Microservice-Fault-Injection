@@ -14,13 +14,40 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-public class ProxyMain extends Transparent {
+public class Proxy extends Transparent {
 	private static final long serialVersionUID = 1L;
 
 	private boolean dropRequests = false;
 	private boolean delayRequests = false;
 
-	private Random rd = new Random();
+	private final Random rd = new Random();
+	private final Server proxyServer;
+		
+	
+	public Proxy(Server proxyServer) {
+		this.proxyServer = proxyServer;
+	}
+
+	public static Proxy startProxy(int proxyPort, String proxyTo) throws Exception {
+		Server proxyServerTmp = new Server(proxyPort);
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		context.setContextPath("/");
+		proxyServerTmp.setHandler(context);
+		Proxy proxy = new Proxy(proxyServerTmp);
+		ServletHolder helloServletHolder = new ServletHolder(proxy);
+		helloServletHolder.setInitParameter("proxyTo", proxyTo);
+		helloServletHolder.setInitParameter("prefix", "/");
+		context.addServlet(helloServletHolder, "/*");
+		proxyServerTmp.start();
+		return proxy;
+	}
+
+	public void joinProxy() throws InterruptedException {
+		proxyServer.join();
+	}
+
+	
+	
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -52,30 +79,5 @@ public class ProxyMain extends Transparent {
 			}
 		}
 		super.customizeProxyRequest(proxyRequest, request);
-	}
-	
-
-	public static void main(String... args) throws Exception {
-		if (args.length < 3) {
-			showHelp();
-			return;
-		}
-
-		try {
-			int controlPort = Integer.parseInt(args[0]);
-			int proxyPort = Integer.parseInt(args[1]);
-			String proxyTo = args[2];
-			
-			Proxy proxy = Proxy.startProxy(proxyPort, proxyTo);
-			proxy.joinProxy();
-		} catch (Exception e) {
-			e.printStackTrace();
-			showHelp();
-		}
-	}
-
-	private static void showHelp() {
-		System.out.println("Usage: [control-port] [proxy-listen-port] [proxyTo]");
-		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/");
 	}
 }
