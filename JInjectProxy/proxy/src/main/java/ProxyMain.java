@@ -55,7 +55,7 @@ public class ProxyMain extends Transparent {
 	}
 
 	public static void main(String... args) throws Exception {
-		if (args.length != 3) {
+		if (args.length < 3) {
 			showHelp();
 			return;
 		}

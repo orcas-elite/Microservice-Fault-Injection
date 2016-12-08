@@ -4,8 +4,13 @@ import org.eclipse.jetty.client.HttpClient;
 public class RequestTestMain {
 
 	public static void main(String[] args) throws Exception {
-		String requestUrl = "http://0.0.0.0:8081/";
-		int testRuns = 10000;
+		if (args.length < 1) {
+			showHelp();
+			return;
+		}
+		
+		String requestUrl = args[0];
+		int testRuns = 1000;
 
 		HttpClient httpClient = new HttpClient();
 		httpClient.start();
@@ -26,5 +31,10 @@ public class RequestTestMain {
 		System.out.println(((double) (waitTimeSum / 1000) / 1000) + " ms");
 
 		httpClient.stop();
+	}
+
+	private static void showHelp() {
+		System.out.println("Usage: [request-target]");
+		System.out.println("Example: http://0.0.0.0:8081/");
 	}
 }

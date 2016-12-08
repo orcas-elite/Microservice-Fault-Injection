@@ -20,9 +20,14 @@ public class TestServerMain extends AbstractHandler {
 	}
 
 	public static void main(String[] args) {
+		if (args.length < 1) {
+			showHelp();
+			return;
+		}
+		
 		System.out.println("Starting server");
 
-		Server server = new Server(8080);
+		Server server = new Server(Integer.parseInt(args[0]));
 		server.setHandler(new TestServerMain());
 
 		try {
@@ -32,5 +37,10 @@ public class TestServerMain extends AbstractHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+
+	private static void showHelp() {
+		System.out.println("Usage: [server-port]");
 	}
 }
