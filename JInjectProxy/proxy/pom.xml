@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.unistuttgart.msinject</groupId>
-	<artifactId>proxy</artifactId>
+	<artifactId>status</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JInjectProxy</name>
@@ -38,7 +38,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-proxy</artifactId>
+			<artifactId>jetty-status</artifactId>
 			<version>9.0.0.RC2</version>
 		</dependency>
 

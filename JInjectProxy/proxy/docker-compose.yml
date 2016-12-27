@@ -1,6 +1,6 @@
 jproxy:
     image: jproxy
-    command: java -jar ./proxy.jar 8088 8081 http://0.0.0.0:8080/
+    command: java -jar ./status.jar 8088 8081 http://0.0.0.0:8080/
     ports:
         - "8088:8088"  # Control port
         - "8081:8081"  # Proxy port
