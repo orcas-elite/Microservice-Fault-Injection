@@ -29,7 +29,7 @@ public class ProxyControlServerApplication extends Application<ProxyControlServe
 					final Environment environment) {
 
 
-		final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
+		final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient())
 				.build(getName());
 
 		environment.jersey().register(new ProxyResource(client));
