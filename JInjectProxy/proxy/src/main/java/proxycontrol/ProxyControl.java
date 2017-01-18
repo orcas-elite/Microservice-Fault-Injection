@@ -21,7 +21,7 @@ public class ProxyControl {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getStatus() {
 		String proxyStatus = proxy != null ? (proxy.isStarted() ? "started" : "not started") : "null";
-		JsonStatus status = new JsonStatus(proxyStatus);
+		JsonStatus status = new JsonStatus(proxyStatus, proxy.getRequestsServiced(), proxy.getRequestsDelayed(), proxy.getRequestsDropped());
 		return new Gson().toJson(status);
 	}
 
@@ -46,11 +46,17 @@ public class ProxyControl {
 
 	@SuppressWarnings("unused")
 	private class JsonStatus {
-		public String proxy;
+		public String proxyStatus;
+		public int requestsServiced = 0;
+		public int requestsDelayed = 0;
+		public int requestsDropped = 0;
 
-		public JsonStatus(String proxy) {
+		public JsonStatus(String proxyStatus, int requestsServiced, int requestsDelayed, int requestsDropped) {
 			super();
-			this.proxy = proxy;
+			this.proxyStatus = proxyStatus;
+			this.requestsServiced = requestsServiced;
+			this.requestsDelayed = requestsDelayed;
+			this.requestsDropped = requestsDropped;
 		}
 	}
 	

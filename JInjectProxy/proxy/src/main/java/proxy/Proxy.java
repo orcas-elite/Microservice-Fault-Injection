@@ -32,6 +32,10 @@ public class Proxy extends Transparent {
 	private int delayTimeMin = 0;
 	private int delayTimeRandSpan = 0;
 
+	private int requestsServiced = 0;
+	private int requestsDelayed = 0;
+	private int requestsDropped = 0;
+
 	private final Random rd = new Random();
 	private final Server proxyServer;
 		
@@ -88,10 +92,15 @@ public class Proxy extends Transparent {
 		// Drop packages
 		if (dropEnabled && rd.nextDouble() <= dropProbability) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			if(logger.isTraceEnabled())
+				logger.trace("Dropped request " + request);
+			requestsDropped++;
 			return; // TODO Better drop
 		}
-
 		super.service(request, response);
+		if(logger.isTraceEnabled())
+			logger.trace("Serviced request " + request);
+		requestsServiced++;
 	}
 
 	@Override
@@ -99,15 +108,32 @@ public class Proxy extends Transparent {
 		// Delay packages
 		if (delayEnabled && rd.nextDouble() <= delayProbability) {
 			try {
-				Thread.sleep(delayTimeMin + rd.nextInt(delayTimeRandSpan));
+				int delayTime = delayTimeMin + rd.nextInt(delayTimeRandSpan);
+				if(logger.isTraceEnabled())
+					logger.trace("Delay request by " + delayTime + " " + request);
+				Thread.sleep(delayTime);
+				requestsDelayed++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		super.customizeProxyRequest(proxyRequest, request);
 	}
+	
 
 	public boolean isStarted() {
 		return started;
+	}
+	
+	public int getRequestsServiced() {
+		return requestsServiced;
+	}
+
+	public int getRequestsDelayed() {
+		return requestsDelayed;
+	}
+
+	public int getRequestsDropped() {
+		return requestsDropped;
 	}
 }
