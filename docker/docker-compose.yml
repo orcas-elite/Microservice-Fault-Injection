@@ -1,0 +1,20 @@
+s1:
+  image: htmltest
+  command: python3 rest.py 80
+  links:
+    - s2
+  ports:
+    - 80:80
+
+s2: # Proxy to s2
+  image: jproxy
+  command: java -jar ./status.jar 8088 80 http://s2o:81/
+  links:
+    - s2o
+  ports:
+    - "8088:8088"  # Control port
+    #- "80:80"  # Proxy listen port
+    
+s2o: # original s2
+  image: htmltest
+  command: python3 rest.py 81
