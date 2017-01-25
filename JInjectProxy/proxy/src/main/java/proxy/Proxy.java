@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.client.api.Response;
+import org.eclipse.jetty.client.api.Result;
 import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -36,8 +38,8 @@ public class Proxy extends Transparent {
 	private int delayTimeRandSpan = 0;
 	
 	// Max active, n-lane bridge
-	private boolean maxActiveEnabled = true;
-	private int maxActive = 5;
+	private boolean maxActiveEnabled = false;
+	private int maxActive = 2;
 	private Object maxActiveLock = new Object();
 	private static AtomicInteger activeRequestsCounter = new AtomicInteger(0);
 	
@@ -120,16 +122,15 @@ public class Proxy extends Transparent {
 		if (maxActiveEnabled) {
 			while(activeRequestsCounter.intValue() >= maxActive) {
 				try {
-					System.out.println("Wait");
-					maxActiveLock.wait();
-					System.out.println("Notified");
+					synchronized (maxActiveLock) {
+						maxActiveLock.wait();						
+					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					return;
 				}
 			}
 			activeRequestsCounter.incrementAndGet();
-			System.out.println("INc " + activeRequestsCounter.intValue());
 		}
 
 		// Delay packages
@@ -146,15 +147,33 @@ public class Proxy extends Transparent {
 			}
 		}
 		super.customizeProxyRequest(proxyRequest, request);
+	}	
 
-		if (maxActiveEnabled) {
-			activeRequestsCounter.decrementAndGet();
-			System.out.println("DEC " + activeRequestsCounter.intValue());
-			synchronized (maxActiveLock) {
-				maxActiveLock.notify();				
+	
+	
+	// Observe ProxyResponseListener to know when complete
+    protected Response.Listener newProxyResponseListener(HttpServletRequest request, HttpServletResponse response)
+    {
+        return new ProxyResponseListenerObserved(request, response);
+    }
+    
+    protected class ProxyResponseListenerObserved extends ProxyResponseListener {
+
+		protected ProxyResponseListenerObserved(HttpServletRequest request, HttpServletResponse response) {
+			super(request, response);
+		}
+    	
+		@Override
+		public void onComplete(Result result) {
+			super.onComplete(result);
+			if (maxActiveEnabled) {
+				activeRequestsCounter.decrementAndGet();
+				synchronized (maxActiveLock) {
+					maxActiveLock.notify();				
+				}
 			}
 		}
-	}
+    }
 	
 
 	public boolean isStarted() {
