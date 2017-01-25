@@ -2,6 +2,7 @@ package proxy;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,20 +25,30 @@ public class Proxy extends Transparent {
 
 	private boolean started = true;
 	
+	// Drop
 	private boolean dropEnabled = false;
 	private double dropProbability = 0.0;
 	
+	// Delay
 	private boolean delayEnabled = false;
 	private double delayProbability = 0.0;
 	private int delayTimeMin = 0;
 	private int delayTimeRandSpan = 0;
-
+	
+	// Max active, n-lane bridge
+	private boolean maxActiveEnabled = true;
+	private int maxActive = 5;
+	private Object maxActiveLock = new Object();
+	private static AtomicInteger activeRequestsCounter = new AtomicInteger(0);
+	
+	// Metrics
 	private int requestsServiced = 0;
 	private int requestsDelayed = 0;
 	private int requestsDropped = 0;
 
 	private final Random rd = new Random();
 	private final Server proxyServer;
+	
 		
 	
 	public Proxy(Server proxyServer) {
@@ -105,19 +116,44 @@ public class Proxy extends Transparent {
 
 	@Override
 	protected void customizeProxyRequest(Request proxyRequest, HttpServletRequest request) {
+		
+		if (maxActiveEnabled) {
+			while(activeRequestsCounter.intValue() >= maxActive) {
+				try {
+					System.out.println("Wait");
+					maxActiveLock.wait();
+					System.out.println("Notified");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
+			activeRequestsCounter.incrementAndGet();
+			System.out.println("INc " + activeRequestsCounter.intValue());
+		}
+
 		// Delay packages
 		if (delayEnabled && rd.nextDouble() <= delayProbability) {
 			try {
 				int delayTime = delayTimeMin + rd.nextInt(delayTimeRandSpan);
-				if(logger.isTraceEnabled())
+				if (logger.isTraceEnabled())
 					logger.trace("Delay request by " + delayTime + " " + request);
 				Thread.sleep(delayTime);
 				requestsDelayed++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 		super.customizeProxyRequest(proxyRequest, request);
+
+		if (maxActiveEnabled) {
+			activeRequestsCounter.decrementAndGet();
+			System.out.println("DEC " + activeRequestsCounter.intValue());
+			synchronized (maxActiveLock) {
+				maxActiveLock.notify();				
+			}
+		}
 	}
 	
 

@@ -1,6 +1,4 @@
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -10,6 +8,7 @@ public class RequestTestMainAsync {
 	
 	static AtomicLong waitTimeSum; 
 	static AtomicInteger responses;
+	static AtomicInteger runningRequests;
 
 	public static void main(String[] args) throws Exception {
 		if (args.length < 1) {
@@ -28,12 +27,14 @@ public class RequestTestMainAsync {
 		
 		waitTimeSum = new AtomicLong(0);
 		responses = new AtomicInteger(0);
+		runningRequests = new AtomicInteger(0);
 		for (int i = 0; i < testRuns; i++) {
 			final String url = requestUrl + i;
 			new Thread(new Runnable() {				
 				public void run() {
-					System.out.println("req");
+//					System.out.println("req");
 					long start = System.nanoTime();
+					runningRequests.incrementAndGet();
 					try {
 						httpClient.GET(url);
 					} catch (Exception e) {
@@ -41,13 +42,15 @@ public class RequestTestMainAsync {
 					}
 					waitTimeSum.addAndGet(System.nanoTime() - start);
 					responses.incrementAndGet();
-					System.out.println("resp");
+					runningRequests.decrementAndGet();
+//					System.out.println("resp");
 				}
 			}).start();
 		}
 
 		// Wait for completion
 		while(responses.intValue() < testRuns) {
+			System.out.println(runningRequests.intValue() + " active");
 			Thread.sleep(500);
 		}
 		
