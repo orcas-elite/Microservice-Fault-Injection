@@ -42,6 +42,24 @@ public class ProxyControl {
 		proxy.setDelay(json.enabled, json.probability, json.min, json.max);
 		return "Success";
 	}
+
+	@POST
+	@Path("set/nlane")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String postNLane(final String input) {
+		JsonSetNLane json = new Gson().fromJson(input, JsonSetNLane.class);
+		proxy.setMaxActiveNLaneBridge(json.enabled, json.maxActive);
+		return "Success";
+	}
+
+	@POST
+	@Path("set/metrics")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String postMetrics(final String input) {
+		JsonSetMetrics json = new Gson().fromJson(input, JsonSetMetrics.class);
+		proxy.setMetrics(json.enabled);
+		return "Success";
+	}
 	
 
 	@SuppressWarnings("unused")
@@ -72,5 +90,16 @@ public class ProxyControl {
 		public double probability;
 		public int min;
 		public int max;
+	}
+	
+
+	private class JsonSetNLane {
+		public boolean enabled;
+		public int maxActive;
+	}
+	
+
+	private class JsonSetMetrics {
+		public boolean enabled;
 	}
 }
