@@ -9,6 +9,8 @@ Main project is in "proxy" folder.
 request-test is a simple http request test (can also be used for performance testing).
 test-server is a simple http server, returning a hello.
 
+Each Proxy has an ID identifying its role in the system. Furthermore each proxy has a random UUID assigned at startup.
+
 
 ## Starting
 
@@ -16,6 +18,22 @@ Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [i
 Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  http://0.0.0.0:8091/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
+
+
+## Connection to Master
+
+Proxy tries to send a hello message to [master-url] with a json containing its ID and UUID.
+{ "proxyId": "ProxyForDatabase", "proxyUuid: "UUID" }
+
+
+## Metrics
+
+Proxy collects metrics:
+- requestsServiced
+- requestsDelayed
+- requestsDropped
+
+Metrics are periodically (1000ms) written to InfluxDb, if there is a database connection.
 
 ## Configuration
 
