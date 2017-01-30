@@ -10,23 +10,32 @@ request-test is a simple http request test (can also be used for performance tes
 test-server is a simple http server, returning a hello.
 
 
-## Proxy
+## Starting
 
-Usage: "[control-port] [proxy-listen-port] [proxyTo]"
-Example: "8088 8081 http://0.0.0.0:8080/"
+Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
+Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  http://0.0.0.0:8091/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
 
+## Configuration
+
+There are the following configurations
+- Enable/Disable metrics (MsgCount, RequestTime, DroppedMsgs, DelayedMsgs, NLaneDelayedMsgs). By default enabled
+- Drop, by default disabled
+- Delay, by default disabled
+- N-lane Bridge, by default disabled
+
+The proxy can be controlled and configured using REST:
+
+
 ### REST Control Interface
 
-The proxy can be controlled using REST:
-
-#### GET http://localhost:8088/control/status
+#### GET http://localhost:8089/control/status
 Get proxy status, example:
 
 Output: "{"proxy":"started"}"
 
-#### POST http://localhost:8088/control/set/drop
+#### PUT http://localhost:8089/control/set/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
@@ -38,7 +47,7 @@ Output:
 200 "Success"
 
 
-#### POST http://localhost:8088/control/set/delay
+#### PUT http://localhost:8089/control/set/delay
 Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and maximum delay (in milliseconds). Example: 
 
 Input:
@@ -51,3 +60,25 @@ Input:
 Output:
 200 "Success"
 
+
+#### PUT http://localhost:8089/control/set/nlane
+Set n-lane bridge delay configuration, enabled, maximum active requests.
+
+Input:
+{
+  enabled: true,
+  maxActive: 10
+}
+Output:
+200 "Success"
+
+
+#### PUT http://localhost:8089/control/set/metrics
+Enables or disables metrics.
+
+Input:
+{
+  enabled: true
+}
+Output:
+200 "Success"
