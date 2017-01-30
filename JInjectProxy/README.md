@@ -35,7 +35,7 @@ Get proxy status, example:
 
 Output: "{"proxy":"started"}"
 
-#### POST http://localhost:8089/control/set/drop
+#### PUT http://localhost:8089/control/set/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
@@ -47,7 +47,7 @@ Output:
 200 "Success"
 
 
-#### POST http://localhost:8089/control/set/delay
+#### PUT http://localhost:8089/control/set/delay
 Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and maximum delay (in milliseconds). Example: 
 
 Input:
@@ -61,7 +61,7 @@ Output:
 200 "Success"
 
 
-#### POST http://localhost:8089/control/set/nlane
+#### PUT http://localhost:8089/control/set/nlane
 Set n-lane bridge delay configuration, enabled, maximum active requests.
 
 Input:
@@ -73,7 +73,7 @@ Output:
 200 "Success"
 
 
-#### POST http://localhost:8089/control/set/metrics
+#### PUT http://localhost:8089/control/set/metrics
 Enables or disables metrics.
 
 Input:
