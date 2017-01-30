@@ -2,7 +2,7 @@ package proxycontrol;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -25,7 +25,7 @@ public class ProxyControl {
 		return new Gson().toJson(status);
 	}
 
-	@POST
+	@PUT
 	@Path("set/drop")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postDrop(final String input) {
@@ -34,7 +34,7 @@ public class ProxyControl {
 		return "Success";
 	}
 
-	@POST
+	@PUT
 	@Path("set/delay")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postDelay(final String input) {
@@ -43,7 +43,7 @@ public class ProxyControl {
 		return "Success";
 	}
 
-	@POST
+	@PUT
 	@Path("set/nlane")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postNLane(final String input) {
@@ -52,7 +52,7 @@ public class ProxyControl {
 		return "Success";
 	}
 
-	@POST
+	@PUT
 	@Path("set/metrics")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postMetrics(final String input) {
