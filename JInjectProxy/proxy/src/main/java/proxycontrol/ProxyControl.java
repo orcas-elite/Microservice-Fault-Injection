@@ -47,11 +47,11 @@ public class ProxyControl {
 	@SuppressWarnings("unused")
 	private class JsonStatus {
 		public String proxyStatus;
-		public int requestsServiced = 0;
-		public int requestsDelayed = 0;
-		public int requestsDropped = 0;
+		public long requestsServiced = 0;
+		public long requestsDelayed = 0;
+		public long requestsDropped = 0;
 
-		public JsonStatus(String proxyStatus, int requestsServiced, int requestsDelayed, int requestsDropped) {
+		public JsonStatus(String proxyStatus, long requestsServiced, long requestsDelayed, long requestsDropped) {
 			super();
 			this.proxyStatus = proxyStatus;
 			this.requestsServiced = requestsServiced;

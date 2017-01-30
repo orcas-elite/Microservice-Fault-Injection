@@ -44,9 +44,10 @@ public class Proxy extends Transparent {
 	private static AtomicInteger activeRequestsCounter = new AtomicInteger(0);
 	
 	// Metrics
-	private int requestsServiced = 0;
-	private int requestsDelayed = 0;
-	private int requestsDropped = 0;
+	private boolean metricsEnabled = true;
+	private long requestsServiced = 0;
+	private long requestsDelayed = 0;
+	private long requestsDropped = 0;
 
 	private final Random rd = new Random();
 	private final Server proxyServer;
@@ -90,6 +91,15 @@ public class Proxy extends Transparent {
 		delayTimeRandSpan = delayMax - delayMin + 1;
 	}
 	
+	public void setMaxActiveBridge(boolean enabled, int maxActiveCount) {
+		maxActiveEnabled = enabled;
+		maxActive = maxActiveCount;
+	}
+	
+	public void setMetrics(boolean enabled) {
+		metricsEnabled = enabled;
+	}
+	
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -107,13 +117,15 @@ public class Proxy extends Transparent {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			if(logger.isTraceEnabled())
 				logger.trace("Dropped request " + request);
-			requestsDropped++;
+			if(metricsEnabled)
+				requestsDropped++;
 			return; // TODO Better drop?
 		}
 		super.service(request, response);
 		if(logger.isTraceEnabled())
 			logger.trace("Serviced request " + request);
-		requestsServiced++;
+		if(metricsEnabled)
+			requestsServiced++;
 	}
 
 	@Override
@@ -140,7 +152,8 @@ public class Proxy extends Transparent {
 				if (logger.isTraceEnabled())
 					logger.trace("Delay request by " + delayTime + " " + request);
 				Thread.sleep(delayTime);
-				requestsDelayed++;
+				if(metricsEnabled)
+					requestsDelayed++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
@@ -180,15 +193,20 @@ public class Proxy extends Transparent {
 		return started;
 	}
 	
-	public int getRequestsServiced() {
+	public long getRequestsServiced() {
 		return requestsServiced;
 	}
 
-	public int getRequestsDelayed() {
+	public long getRequestsDelayed() {
 		return requestsDelayed;
 	}
 
-	public int getRequestsDropped() {
+	public long getRequestsDropped() {
 		return requestsDropped;
+	}
+	
+	
+	public boolean getMetricsEnabled() {
+		return metricsEnabled;
 	}
 }

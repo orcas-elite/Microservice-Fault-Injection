@@ -1,4 +1,6 @@
 
+import java.util.UUID;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,14 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import proxy.Proxy;
+import proxycontrol.MetricsManager;
 import proxycontrol.ProxyControl;
 
 
 public class Main {
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 	
-	private static InfluxDB influxDB;
+	private static final String DbName = "ProxyMetrics";
 
+	
 	public static void main(String... args) throws Exception {
 		if (args.length < 6) {
 			showHelp();
@@ -27,18 +31,24 @@ public class Main {
 		Proxy proxy = null;
 		Server proxyControlServer = null;
 		try {
-			int controlPort = Integer.parseInt(args[0]);
-			int proxyPort = Integer.parseInt(args[1]);
-			String proxyTo = args[2];
-			String proxyId = args[3];
-			String masterUrl = args[4];
-			String influxdbUrl = args[5];
+			final int controlPort = Integer.parseInt(args[0]);
+			final int proxyPort = Integer.parseInt(args[1]);
+			final String proxyTo = args[2];
+			final String proxyId = args[3];
+			final String masterUrl = args[4];
+			final String influxdbUrl = args[5];
+			
+			final String proxyUuid = UUID.randomUUID().toString();
+			logger.info("Starting proxy " + proxyId + "_" + proxyUuid);
 			
 			// Try to connect to influxdb
-			connectToDatabase(influxdbUrl);
+			final InfluxDB influxDB = connectToDatabase(influxdbUrl);
 
 			// Start proxy
 			proxy = Proxy.startProxy(proxyPort, proxyTo);
+			
+			// Start metrics
+			new MetricsManager(proxyId, proxyUuid, influxDB, proxy, DbName);
 			
 			// Start control server
 			ResourceConfig config = new ResourceConfig();
@@ -62,16 +72,18 @@ public class Main {
 		}
 	}
 	
-	private static void connectToDatabase(String influxdbUrl) {
+	private static InfluxDB connectToDatabase(String influxdbUrl) {
 		try {
 			// Connect to influxdb database
 			logger.info("Start connecting to InfluxDB");
 			InfluxDB influxDB = InfluxDBFactory.connect(influxdbUrl, "root", "root");
-			String dbName = "ProxyMetrics";
+			String dbName = DbName;
 			influxDB.createDatabase(dbName);
 			logger.info("Connected to InfluxDB");
+			return influxDB;
 		} catch (Exception e) {
 			logger.error("connectToDatabase exception", e);
+			return null;
 		}
 	}
 
