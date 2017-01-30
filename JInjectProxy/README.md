@@ -13,7 +13,7 @@ test-server is a simple http server, returning a hello.
 ## Starting
 
 Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
-Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  http://0.0.0.0:8080/ http://172.17.0.2:8086"
+Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  http://0.0.0.0:8080/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
 
