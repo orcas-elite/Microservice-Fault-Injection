@@ -108,7 +108,7 @@ public class Proxy extends Transparent {
 			if(logger.isTraceEnabled())
 				logger.trace("Dropped request " + request);
 			requestsDropped++;
-			return; // TODO Better drop
+			return; // TODO Better drop?
 		}
 		super.service(request, response);
 		if(logger.isTraceEnabled())

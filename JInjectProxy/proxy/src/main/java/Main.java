@@ -1,15 +1,4 @@
 
-import java.io.IOException;
-import java.util.Random;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.proxy.ProxyServlet.Transparent;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -18,6 +7,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import proxy.Proxy;
 import proxycontrol.ProxyControl;
+
 
 public class Main {
 
@@ -48,7 +38,6 @@ public class Main {
 			ProxyControl.proxy = proxy;
 
 			proxy.joinProxy();
-			//proxyControlServer.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 			showHelp();
@@ -61,7 +50,7 @@ public class Main {
 	}
 
 	private static void showHelp() {
-		System.out.println("Usage: [control-port] [proxy-listen-port] [proxyTo]");
-		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/");
+		System.out.println("Usage: [control-port] [proxy-listen-port] [proxyTo] [proxy-id] [master-url] [influxdb-url]");
+		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/ http://0.0.0.0:8089/ ProxyForDatabase  http://0.0.0.0:8080/ http://172.17.0.2:8086/");
 	}
 }
