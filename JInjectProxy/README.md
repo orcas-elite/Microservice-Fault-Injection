@@ -17,16 +17,25 @@ Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  
 
 Drop and delay are disabled by default.
 
-## REST Control Interface
+## Configuration
 
-The proxy can be controlled using REST:
+There are the following configurations
+- Enable/Disable metrics (MsgCount, RequestTime, DroppedMsgs, DelayedMsgs, NLaneDelayedMsgs). By default enabled
+- Drop, by default disabled
+- Delay, by default disabled
+- N-lane Bridge, by default disabled
 
-#### GET http://localhost:8088/control/status
+The proxy can be controlled and configured using REST:
+
+
+### REST Control Interface
+
+#### GET http://localhost:8089/control/status
 Get proxy status, example:
 
 Output: "{"proxy":"started"}"
 
-#### POST http://localhost:8088/control/set/drop
+#### POST http://localhost:8089/control/set/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
@@ -38,7 +47,7 @@ Output:
 200 "Success"
 
 
-#### POST http://localhost:8088/control/set/delay
+#### POST http://localhost:8089/control/set/delay
 Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and maximum delay (in milliseconds). Example: 
 
 Input:
@@ -51,3 +60,25 @@ Input:
 Output:
 200 "Success"
 
+
+#### POST http://localhost:8089/control/set/nlane
+Set n-lane bridge delay configuration, enabled, maximum active requests.
+
+Input:
+{
+  enabled: true,
+  maxActive: 10,
+}
+Output:
+200 "Success"
+
+
+#### POST http://localhost:8089/control/set/metrics
+Enables or disables metrics.
+
+Input:
+{
+  enabled: true
+}
+Output:
+200 "Success"
