@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import proxy.Proxy;
+import proxycontrol.MasterMessageSender;
 import proxycontrol.MetricsManager;
 import proxycontrol.ProxyControl;
 
@@ -61,6 +62,9 @@ public class Main {
 			context.addServlet(servlet, "/*");
 			proxyControlServer.start();
 			ProxyControl.proxy = proxy;
+			
+			// Start master message sender
+			new MasterMessageSender(masterUrl, proxyId, proxyUuid);
 
 			proxy.joinProxy();
 		} catch (Exception e) {
