@@ -50,7 +50,13 @@ public class Main {
 			proxy = Proxy.startProxy(proxyPort, proxyTo);
 			
 			// Start metrics
-			new MetricsManager(proxyId, proxyUuid, influxDB, proxy, DbName);
+			if(influxDB != null) {
+				logger.info("Starting MetricsManager to influxDb");
+				new MetricsManager(proxyId, proxyUuid, influxDB, proxy, DbName);
+			}
+			else {
+				logger.error("Unable to start MetricsManager without influxDb connection");
+			}
 			
 			// Start control server
 			ResourceConfig config = new ResourceConfig();
