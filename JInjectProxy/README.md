@@ -10,14 +10,14 @@ request-test is a simple http request test (can also be used for performance tes
 test-server is a simple http server, returning a hello.
 
 
-## Proxy
+## Starting
 
-Usage: "[control-port] [proxy-listen-port] [proxyTo]"
-Example: "8088 8081 http://0.0.0.0:8080/"
+Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
+Example: "8088 8081 http://0.0.0.0:8080/ http://0.0.0.0:8089/ ProxyForDatabase  http://0.0.0.0:8080/ http://172.17.0.2:8086"
 
 Drop and delay are disabled by default.
 
-### REST Control Interface
+## REST Control Interface
 
 The proxy can be controlled using REST:
 
