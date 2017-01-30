@@ -19,45 +19,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import proxy.Proxy;
 import proxycontrol.ProxyControl;
 
-public class Main extends Transparent {
-	private static final long serialVersionUID = 1L;
-
-	private boolean dropRequests = false;
-	private boolean delayRequests = false;
-
-	private Random rd = new Random();
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		System.out.println("proxyTo " + config.getInitParameter("proxyTo"));
-		super.init(config);
-		System.out.println("Proxy init done");
-	}
-
-	@Override
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		// System.out.println(">>> got a request !");
-
-		// Drop test
-		if (dropRequests && rd.nextBoolean())
-			return;
-
-		super.service(req, res);
-	}
-
-	@Override
-	protected void customizeProxyRequest(Request proxyRequest, HttpServletRequest request) {
-		if (delayRequests) {
-			try {
-				// System.out.println("Start wait");
-				Thread.sleep(1000);
-				// System.out.println("End wait");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		super.customizeProxyRequest(proxyRequest, request);
-	}
+public class Main {
 
 	public static void main(String... args) throws Exception {
 		if (args.length < 3) {

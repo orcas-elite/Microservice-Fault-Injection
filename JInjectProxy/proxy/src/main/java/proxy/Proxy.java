@@ -95,7 +95,7 @@ public class Proxy extends Transparent {
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Starting init proxy to " + config.getInitParameter("proxyTo"));
 		super.init(config);
-		logger.info("Proxy init done");
+		logger.info("Proxy init finished");
 		started = true;
 	}
 
