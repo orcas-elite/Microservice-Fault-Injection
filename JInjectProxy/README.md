@@ -67,7 +67,7 @@ Set n-lane bridge delay configuration, enabled, maximum active requests.
 Input:
 {
   enabled: true,
-  maxActive: 10,
+  maxActive: 10
 }
 Output:
 200 "Success"
