@@ -45,6 +45,7 @@ public class Main {
 			final InfluxDB influxDB = connectToDatabase(influxdbUrl);
 
 			// Start proxy
+			logger.info("Proxy starting on port " + proxyPort);
 			proxy = Proxy.startProxy(proxyPort, proxyTo);
 			
 			// Start metrics
@@ -54,6 +55,7 @@ public class Main {
 			ResourceConfig config = new ResourceConfig();
 			config.packages("proxycontrol");
 			ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+			logger.info("Control server starting on port " + controlPort);
 			proxyControlServer = new Server(controlPort);
 			ServletContextHandler context = new ServletContextHandler(proxyControlServer, "/*");
 			context.addServlet(servlet, "/*");

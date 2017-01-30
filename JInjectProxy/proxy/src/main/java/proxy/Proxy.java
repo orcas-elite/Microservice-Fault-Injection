@@ -77,27 +77,29 @@ public class Proxy extends Transparent {
 	}
 
 	
-	public void setDrop(boolean enable, double probability) {
-		logger.info(String.format("Proxy setDrop %b %f", enable, probability));
-		dropEnabled = enable;
+	public void setDrop(boolean enabled, double probability) {
+		dropEnabled = enabled;
 		dropProbability = probability;
+		logger.info(String.format("Proxy setDrop %b %f", enabled, probability));
 	}
 	
-	public void setDelay(boolean enable, double probability, int delayMin, int delayMax) {
-		logger.info(String.format("Proxy setDelay %b %f %d %d", enable, probability, delayMin, delayMax));
-		delayEnabled = enable;
+	public void setDelay(boolean enabled, double probability, int delayMin, int delayMax) {
+		delayEnabled = enabled;
 		delayProbability = probability;
 		delayTimeMin = delayMin;
 		delayTimeRandSpan = delayMax - delayMin + 1;
+		logger.info(String.format("Proxy setDelay %b %f %d %d", enabled, probability, delayMin, delayMax));
 	}
 	
-	public void setMaxActiveBridge(boolean enabled, int maxActiveCount) {
+	public void setMaxActiveNLaneBridge(boolean enabled, int maxActiveCount) {
 		maxActiveEnabled = enabled;
 		maxActive = maxActiveCount;
+		logger.info(String.format("Proxy setMaxActive %b %d", enabled, maxActiveCount));
 	}
 	
 	public void setMetrics(boolean enabled) {
 		metricsEnabled = enabled;
+		logger.info(String.format("Proxy setMetrics %b", enabled));
 	}
 	
 
