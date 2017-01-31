@@ -25,7 +25,7 @@ public class MasterMessageSender {
 	private static final int RetryDelay = 4000;
 	
 	
-	public MasterMessageSender(String masterUrl, String proxyId, String proxyUuid) {
+	public MasterMessageSender(String masterUrl, String proxyId, String proxyUuid, int control_port) {
 
 		Thread metricsThread = new Thread(new Runnable() {
 			@Override
@@ -50,7 +50,7 @@ public class MasterMessageSender {
 							httpCon.setRequestMethod("PUT");
 							OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
 							
-							JsonHelloMsg helloJson = new JsonHelloMsg(proxyId, proxyUuid);							
+							JsonHelloMsg helloJson = new JsonHelloMsg(proxyId, proxyUuid, control_port);							
 							String helloMsg = new Gson().toJson(helloJson);
 							out.write(helloMsg);
 							out.close();
@@ -94,13 +94,15 @@ public class MasterMessageSender {
 
 	@SuppressWarnings("unused")
 	private class JsonHelloMsg {
-		public String proxyId;
-		public String proxyUuid;
+		public String id;
+		public String uuid;
+		public int control_port;
 
-		public JsonHelloMsg(String proxyId, String proxyUuid) {
+		public JsonHelloMsg(String proxyId, String proxyUuid, int control_port) {
 			super();
-			this.proxyId = proxyId;
-			this.proxyUuid = proxyUuid;
+			this.id = proxyId;
+			this.uuid = proxyUuid;
+			this.control_port = control_port;
 		}
 	}
 }

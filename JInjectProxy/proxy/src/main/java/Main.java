@@ -70,7 +70,7 @@ public class Main {
 			ProxyControl.proxy = proxy;
 			
 			// Start master message sender
-			new MasterMessageSender(masterUrl, proxyId, proxyUuid);
+			new MasterMessageSender(masterUrl, proxyId, proxyUuid, controlPort);
 
 			proxy.joinProxy();
 		} catch (Exception e) {
