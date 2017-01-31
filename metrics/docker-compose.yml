@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  influxdb:
+    image: influxdb:latest
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+  chronograf:
+    image: quay.io/influxdb/chronograf:latest
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
+    ports:
+      - "8888:8888"
+    links:
+      - influxdb
+  telegraf:
+    image: telegraf:latest
+    volumes:
+      - ./data/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    links:
+      - influxdb
+    ports:
+      - "8092:8092/udp"
+      - "8094:8094"
+      - "8125:8125/udp"
