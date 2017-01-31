@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 log.txt
+**/dependency-reduced-pom.xml
