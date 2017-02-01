@@ -29,7 +29,7 @@ public class Proxy extends Transparent {
 	private static final long serialVersionUID = 1L;
 
 	private boolean started = true;
-	private boolean pcsConnected = true;
+	private boolean pcsConnected = false;
 	private final int proxyPort;
 	private final int controlPort;
 	private final String proxyTag;
@@ -213,7 +213,7 @@ public class Proxy extends Transparent {
 
 	public ProxyStatus getStatus() {
 		return new ProxyStatus(controlPort, proxyPort, proxyTag, proxyUuid, proxyTo, 
-				pcsConnected, requestsServiced, requestsDelayed, requestsDropped);
+				started, pcsConnected, requestsServiced, requestsDelayed, requestsDropped);
 	}
     
 	public boolean isStarted() {

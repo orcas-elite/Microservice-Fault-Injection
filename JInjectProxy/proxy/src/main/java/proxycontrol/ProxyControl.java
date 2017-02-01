@@ -21,9 +21,7 @@ public class ProxyControl {
 	@Path("status")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getStatus() {
-		String proxyStatus = proxy != null ? (proxy.isStarted() ? "started" : "not started") : "null";
-		JsonStatus status = new JsonStatus(proxyStatus, proxy.getRequestsServiced(), proxy.getRequestsDelayed(), proxy.getRequestsDropped());
-		return new Gson().toJson(status);
+		return new Gson().toJson(proxy.getStatus());
 	}
 
 	

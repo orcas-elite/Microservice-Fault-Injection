@@ -58,8 +58,13 @@ public class MasterHeartbeatSender {
 							out.close();
 							
 							if(httpCon.getResponseCode() == 200) {
-								logger.trace("Send heartbeat success: " + httpCon.getResponseCode());
-								proxy.setPcsConnected(true);
+								if(!proxy.isPcsConnected()) {
+									proxy.setPcsConnected(true);
+									logger.trace("Connected to PCS, Send heartbeat success: " + httpCon.getResponseCode());
+								}
+								else {
+									logger.trace("Send heartbeat success: " + httpCon.getResponseCode());
+								}
 								return;
 							}
 							else {

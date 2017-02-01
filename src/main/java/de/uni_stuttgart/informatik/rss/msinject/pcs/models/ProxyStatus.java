@@ -7,6 +7,7 @@ public class ProxyStatus {
 	private String proxyUuid;
 	private String proxyTarget;
 
+	private boolean started;
 	private boolean pcsConnected;
 	private long requestsServiced = 0;
 	private long requestsDelayed = 0;
@@ -17,13 +18,14 @@ public class ProxyStatus {
 	}
 
 	public ProxyStatus(int controlPort, int proxyPort, String proxyTag, String proxyUuid, String proxyTarget,
-			boolean pcsConnected, long requestsServiced, long requestsDelayed, long requestsDropped) {
+			boolean started, boolean pcsConnected, long requestsServiced, long requestsDelayed, long requestsDropped) {
 		super();
 		this.controlPort = controlPort;
 		this.proxyPort = proxyPort;
 		this.proxyTag = proxyTag;
 		this.proxyUuid = proxyUuid;
 		this.proxyTarget = proxyTarget;
+		this.started = started;
 		this.pcsConnected = pcsConnected;
 		this.requestsServiced = requestsServiced;
 		this.requestsDelayed = requestsDelayed;
@@ -49,6 +51,10 @@ public class ProxyStatus {
 
 	public String getProxyTarget() {
 		return proxyTarget;
+	}
+
+	public boolean isStarted() {
+		return started;
 	}
 
 	public boolean isPcsConnected() {
