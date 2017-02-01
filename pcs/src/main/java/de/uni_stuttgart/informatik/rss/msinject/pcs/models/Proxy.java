@@ -35,37 +35,43 @@ public class Proxy {
 	}
 
 	public Boolean setDelayConfig(Client client, ProxyDelayConfig delayConfig) {
-
-		Response response = client.target(address + ":" + control_port + "/control/set/delay").request().put(Entity.json(delayConfig));
-
+		Response response = client.target("http://" + address + ":" + control_port + "/control/delay").request().put(Entity.json(delayConfig));
 		return response.getStatus() == 200;
+	}
+
+	public ProxyDelayConfig getDelayConfig(Client client) {
+		return client.target("http://" + address + ":" + control_port + "/control/delay").request().get(ProxyDelayConfig.class);
 	}
 
 	public Boolean setDropConfig(Client client, ProxyDropConfig dropConfig) {
-
-		Response response = client.target(address + ":" + control_port + "/control/set/drop").request().put(Entity.json(dropConfig));
-
+		Response response = client.target("http://" + address + ":" + control_port + "/control/drop").request().put(Entity.json(dropConfig));
 		return response.getStatus() == 200;
+	}
+
+	public ProxyDropConfig getDropConfig(Client client) {
+		return client.target("http://" + address + ":" + control_port + "/control/drop").request().get(ProxyDropConfig.class);
 	}
 
 	public Boolean setNLaneConfig(Client client, ProxyNLaneConfig nLaneConfig) {
-
-		Response response = client.target(address + ":" + control_port + "/control/set/nlane").request().put(Entity.json(nLaneConfig));
-
+		Response response = client.target("http://" + address + ":" + control_port + "/control/nlane").request().put(Entity.json(nLaneConfig));
 		return response.getStatus() == 200;
+	}
+
+	public ProxyNLaneConfig getNLaneConfig(Client client) {
+		return client.target("http://" + address + ":" + control_port + "/control/nlane").request().get(ProxyNLaneConfig.class);
 	}
 
 	public Boolean setMetricsConfig(Client client, ProxyMetricsConfig metricConfig) {
-
-		Response response = client.target(address + ":" + control_port + "/control/set/metrics").request().put(Entity.json(metricConfig));
-
+		Response response = client.target("http://" + address + ":" + control_port + "/control/metrics").request().put(Entity.json(metricConfig));
 		return response.getStatus() == 200;
 	}
 
+	public ProxyMetricsConfig getMetricsConfig(Client client) {
+		return client.target("http://" + address + ":" + control_port + "/control/nlane").request().get(ProxyMetricsConfig.class);
+	}
+
 	public ProxyStatus getProxyStatus(Client client) {
-
-		return client.target(address + ":" + control_port + "/control/status").request().get(ProxyStatus.class);
-
+		return client.target("http://" + address + ":" + control_port + "/control/status").request().get(ProxyStatus.class);
 	}
 
 	public void setAddress(String address) {
