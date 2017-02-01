@@ -5,17 +5,19 @@ import io.dropwizard.client.JerseyClientConfiguration;
 
 public class ProxyControlServerConfiguration extends Configuration {
 
-	private int port;
-
 	private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+	private long timeoutDuration = 5;
 
-
-	public int getPort() {
-		return port;
-	}
 
 	public JerseyClientConfiguration getJerseyClient() {
 		return jerseyClient;
 	}
 
+	public long getTimeoutDuration() {
+		return timeoutDuration;
+	}
+
+	public void setTimeoutDuration(long timeoutDuration) {
+		this.timeoutDuration = timeoutDuration;
+	}
 }
