@@ -15,7 +15,7 @@ Each Proxy has an ID identifying its role in the system. Furthermore each proxy 
 ## Starting
 
 Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
-Example: "8089 8090 http://0.0.0.0:8080/ http://0.0.0.0:8091/ ProxyForDatabase  http://0.0.0.0:8091/ http://172.17.0.2:8086/"
+Example: "8089 8090 http://0.0.0.0:8080/ ProxyForDatabase http://0.0.0.0:8091/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
 
@@ -51,9 +51,9 @@ The proxy can be controlled and configured using REST:
 #### GET http://localhost:8089/control/status
 Get proxy status, example:
 
-Output: "{"proxy":"started"}"
+Output: "{"controlPort":8089,"proxyPort":8090,"proxyTag":"TestProxy","proxyUuid":"f6ab607c-b451-4da1-a2ca-039c87529cb2","proxyTarget":"http://0.0.0.0:8080/","started":true,"pcsConnected":false,"requestsServiced":3,"requestsDelayed":0,"requestsDropped":0}"
 
-#### PUT http://localhost:8089/control/set/drop
+#### GET/PUT http://localhost:8089/control/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
@@ -62,10 +62,10 @@ Input:
   probability: 0.74
 }
 Output:
-200 "Success"
+200, Config json (same as input)
 
 
-#### PUT http://localhost:8089/control/set/delay
+#### GET/PUT http://localhost:8089/control/delay
 Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and maximum delay (in milliseconds). Example: 
 
 Input:
@@ -76,10 +76,10 @@ Input:
   max: 800
 }
 Output:
-200 "Success"
+200, Config json (same as input)
 
 
-#### PUT http://localhost:8089/control/set/nlane
+#### GET/PUT http://localhost:8089/control/nlane
 Set n-lane bridge delay configuration, enabled, maximum active requests.
 
 Input:
@@ -88,10 +88,10 @@ Input:
   maxActive: 10
 }
 Output:
-200 "Success"
+200, Config json (same as input)
 
 
-#### PUT http://localhost:8089/control/set/metrics
+#### GET/PUT http://localhost:8089/control/metrics
 Enables or disables metrics.
 
 Input:
@@ -99,4 +99,4 @@ Input:
   enabled: true
 }
 Output:
-200 "Success"
+200, Config json (same as input)
