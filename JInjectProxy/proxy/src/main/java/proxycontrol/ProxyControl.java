@@ -2,13 +2,14 @@ package proxycontrol;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDropConfig;
 import proxy.Proxy;
 
 
@@ -25,17 +26,26 @@ public class ProxyControl {
 		return new Gson().toJson(status);
 	}
 
-	@PUT
-	@Path("set/drop")
+	
+	@GET
+	@Path("drop")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String postDrop(final String input) {
-		JsonSetDrop json = new Gson().fromJson(input, JsonSetDrop.class);
-		proxy.setDrop(json.enabled, json.probability);
-		return "Success";
+	public String getDrop() {
+		return new Gson().toJson(proxy.getDropConfig());
 	}
 
-	@PUT
-	@Path("set/delay")
+	@POST
+	@Path("drop")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String postDrop(final String input) {
+		ProxyDropConfig config = new Gson().fromJson(input, ProxyDropConfig.class);
+		proxy.setDropConfig(config);
+		return new Gson().toJson(proxy.getDropConfig());
+	}
+	
+
+	@POST
+	@Path("delay")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postDelay(final String input) {
 		JsonSetDelay json = new Gson().fromJson(input, JsonSetDelay.class);
@@ -43,8 +53,8 @@ public class ProxyControl {
 		return "Success";
 	}
 
-	@PUT
-	@Path("set/nlane")
+	@POST
+	@Path("nlane")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postNLane(final String input) {
 		JsonSetNLane json = new Gson().fromJson(input, JsonSetNLane.class);
@@ -52,8 +62,8 @@ public class ProxyControl {
 		return "Success";
 	}
 
-	@PUT
-	@Path("set/metrics")
+	@POST
+	@Path("metrics")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String postMetrics(final String input) {
 		JsonSetMetrics json = new Gson().fromJson(input, JsonSetMetrics.class);
@@ -79,15 +89,9 @@ public class ProxyControl {
 	}
 	
 
-	private class JsonSetDrop {
-		public boolean enabled;
-		public double probability;
-	}
-	
-
 	private class JsonSetDelay {
 		public boolean enabled;
-		public double probability;
+		public float probability;
 		public int min;
 		public int max;
 	}

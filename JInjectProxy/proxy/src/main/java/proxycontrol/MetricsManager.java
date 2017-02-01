@@ -27,7 +27,7 @@ public class MetricsManager {
 	private long requestsDropped = 0;
 	
 	
-	public MetricsManager(String proxyId, String proxyUuid, InfluxDB influxDB, Proxy proxy, 
+	public MetricsManager(String proxyTag, String proxyUuid, InfluxDB influxDB, Proxy proxy, 
 			String dbName) {
 		Thread metricsThread = new Thread(new Runnable() {
 			@Override
@@ -47,8 +47,8 @@ public class MetricsManager {
 							
 							Point point = Point.measurement("ProcessedRequests")
 					                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-									.tag("proxyId", proxyId)
 									.tag("proxyUuid", proxyUuid)
+									.tag("proxyTag", proxyTag)
 									.addField("requestsServiced", requestsServicedDelta)
 									.addField("requestsDelayed", requestsDelayedDelta)
 									.addField("requestsDropped", requestsDroppedDelta)

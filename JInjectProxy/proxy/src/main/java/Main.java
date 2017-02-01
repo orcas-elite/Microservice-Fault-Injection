@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import proxy.Proxy;
-import proxycontrol.MasterMessageSender;
+import proxycontrol.MasterHeartbeatSender;
 import proxycontrol.MetricsManager;
 import proxycontrol.ProxyControl;
 
@@ -35,24 +35,24 @@ public class Main {
 			final int controlPort = Integer.parseInt(args[0]);
 			final int proxyPort = Integer.parseInt(args[1]);
 			final String proxyTo = args[2];
-			final String proxyId = args[3];
+			final String proxyTag = args[3];
 			final String masterUrl = args[4];
 			final String influxdbUrl = args[5];
 			
 			final String proxyUuid = UUID.randomUUID().toString();
-			logger.info("Starting proxy " + proxyId + "_" + proxyUuid);
+			logger.info("Starting proxy " + proxyTag + "_" + proxyUuid);
 			
 			// Try to connect to influxdb
 			final InfluxDB influxDB = connectToDatabase(influxdbUrl);
 
 			// Start proxy
 			logger.info("Proxy starting on port " + proxyPort);
-			proxy = Proxy.startProxy(proxyPort, proxyTo);
+			proxy = Proxy.startProxy(proxyPort, controlPort, proxyTo, proxyTag, proxyUuid);
 			
 			// Start metrics
 			if(influxDB != null) {
 				logger.info("Starting MetricsManager to influxDb");
-				new MetricsManager(proxyId, proxyUuid, influxDB, proxy, DbName);
+				new MetricsManager(proxyTag, proxyUuid, influxDB, proxy, DbName);
 			}
 			else {
 				logger.error("Unable to start MetricsManager without influxDb connection");
@@ -70,7 +70,7 @@ public class Main {
 			ProxyControl.proxy = proxy;
 			
 			// Start master message sender
-			new MasterMessageSender(masterUrl, proxyId, proxyUuid, controlPort);
+			new MasterHeartbeatSender(proxy, masterUrl);
 
 			proxy.joinProxy();
 		} catch (Exception e) {

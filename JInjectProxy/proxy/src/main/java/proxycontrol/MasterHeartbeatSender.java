@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyStatus;
+import proxy.Proxy;
+
 
 /**
  * Sends hello message to master
@@ -18,14 +21,14 @@ import com.google.gson.Gson;
  * @author Jonas Grunert
  *
  */
-public class MasterMessageSender {
-	private static final Logger logger = LoggerFactory.getLogger(MasterMessageSender.class);
+public class MasterHeartbeatSender {
+	private static final Logger logger = LoggerFactory.getLogger(MasterHeartbeatSender.class);
 
 	// Delay between send retries
-	private static final int RetryDelay = 4000;
+	private static final int HeartbeatFrequency = 5000;
 	
 	
-	public MasterMessageSender(String masterUrl, String proxyId, String proxyUuid, int control_port) {
+	public MasterHeartbeatSender(Proxy proxy, String masterUrl) {
 
 		Thread metricsThread = new Thread(new Runnable() {
 			@Override
@@ -50,17 +53,18 @@ public class MasterMessageSender {
 							httpCon.setRequestMethod("PUT");
 							OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
 							
-							JsonHelloMsg helloJson = new JsonHelloMsg(proxyId, proxyUuid, control_port);							
-							String helloMsg = new Gson().toJson(helloJson);
-							out.write(helloMsg);
+							ProxyStatus statusMsg = proxy.getStatus();		
+							out.write(new Gson().toJson(statusMsg));
 							out.close();
 							
 							if(httpCon.getResponseCode() == 200) {
-								logger.info("Send hello success: " + httpCon.getResponseCode());
+								logger.trace("Send heartbeat success: " + httpCon.getResponseCode());
+								proxy.setPcsConnected(true);
 								return;
 							}
 							else {
-								logger.info("Send hello failure code: " + httpCon.getResponseCode());								
+								logger.info("Send heartbeat failure code: " + httpCon.getResponseCode());	
+								proxy.setPcsConnected(false);							
 							}
 						} catch (ConnectException e1) {
 							logger.info("Failed to send hello message, unable to connect to " + masterUrl);
@@ -70,7 +74,7 @@ public class MasterMessageSender {
 						
 						// Retry delay
 						try {
-							Thread.sleep(RetryDelay);
+							Thread.sleep(HeartbeatFrequency);
 						} catch (InterruptedException e) {
 							logger.error("Interrupted", e);
 							return;
@@ -89,20 +93,5 @@ public class MasterMessageSender {
 		metricsThread.setName("MasterMessageSenderThread");
 		metricsThread.setDaemon(true);
 		metricsThread.start();
-	}
-	
-
-	@SuppressWarnings("unused")
-	private class JsonHelloMsg {
-		public String id;
-		public String uuid;
-		public int control_port;
-
-		public JsonHelloMsg(String proxyId, String proxyUuid, int control_port) {
-			super();
-			this.id = proxyId;
-			this.uuid = proxyUuid;
-			this.control_port = control_port;
-		}
 	}
 }

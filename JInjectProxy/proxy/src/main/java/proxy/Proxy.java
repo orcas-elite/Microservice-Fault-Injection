@@ -19,6 +19,9 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDropConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyStatus;
+
 
 public class Proxy extends Transparent {
 	private static final Logger logger = LoggerFactory.getLogger(Proxy.class);
@@ -26,14 +29,20 @@ public class Proxy extends Transparent {
 	private static final long serialVersionUID = 1L;
 
 	private boolean started = true;
+	private boolean pcsConnected = true;
+	private final int proxyPort;
+	private final int controlPort;
+	private final String proxyTag;
+	private final String proxyUuid;
+	private final String proxyTo;
 	
 	// Drop
 	private boolean dropEnabled = false;
-	private double dropProbability = 0.0;
+	private float dropProbability = 0.0f;
 	
 	// Delay
 	private boolean delayEnabled = false;
-	private double delayProbability = 0.0;
+	private float delayProbability = 0.0f;
 	private int delayTimeMin = 0;
 	private int delayTimeRandSpan = 0;
 	
@@ -54,16 +63,22 @@ public class Proxy extends Transparent {
 	
 		
 	
-	public Proxy(Server proxyServer) {
+	public Proxy(Server proxyServer, int proxyPort, int controlPort, String proxyTo, String proxyTag, String proxyUuid) {
 		this.proxyServer = proxyServer;
+		this.proxyPort = proxyPort;
+		this.controlPort = controlPort;
+		this.proxyTo = proxyTo;
+		this.proxyTag = proxyTag;
+		this.proxyUuid = proxyUuid;
 	}
 
-	public static Proxy startProxy(int proxyPort, String proxyTo) throws Exception {
+	public static Proxy startProxy(int proxyPort, int controlPort, String proxyTo, String proxyTag,
+			String proxyUuid) throws Exception {
 		Server proxyServerTmp = new Server(proxyPort);
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		context.setContextPath("/");
 		proxyServerTmp.setHandler(context);
-		Proxy proxy = new Proxy(proxyServerTmp);
+		Proxy proxy = new Proxy(proxyServerTmp, proxyPort, controlPort, proxyTo, proxyTag, proxyUuid);
 		ServletHolder helloServletHolder = new ServletHolder(proxy);
 		helloServletHolder.setInitParameter("proxyTo", proxyTo);
 		helloServletHolder.setInitParameter("prefix", "/");
@@ -77,13 +92,18 @@ public class Proxy extends Transparent {
 	}
 
 	
-	public void setDrop(boolean enabled, double probability) {
-		dropEnabled = enabled;
-		dropProbability = probability;
-		logger.info(String.format("Proxy setDrop %b %f", enabled, probability));
+	public void setDropConfig(ProxyDropConfig config) {
+		dropEnabled = config.isEnabled();
+		dropProbability = config.getProbability();
+		logger.info(String.format("Proxy setDrop %b %f", dropEnabled, dropProbability));
 	}
 	
-	public void setDelay(boolean enabled, double probability, int delayMin, int delayMax) {
+	public ProxyDropConfig getDropConfig() {
+		return new ProxyDropConfig(dropEnabled, dropProbability);
+	}
+	
+	
+	public void setDelay(boolean enabled, float probability, int delayMin, int delayMax) {
 		delayEnabled = enabled;
 		delayProbability = probability;
 		delayTimeMin = delayMin;
@@ -191,6 +211,11 @@ public class Proxy extends Transparent {
     }
 	
 
+	public ProxyStatus getStatus() {
+		return new ProxyStatus(controlPort, proxyPort, proxyTag, proxyUuid, proxyTo, 
+				pcsConnected, requestsServiced, requestsDelayed, requestsDropped);
+	}
+    
 	public boolean isStarted() {
 		return started;
 	}
@@ -210,5 +235,13 @@ public class Proxy extends Transparent {
 	
 	public boolean getMetricsEnabled() {
 		return metricsEnabled;
+	}
+
+	public boolean isPcsConnected() {
+		return pcsConnected;
+	}
+
+	public void setPcsConnected(boolean pcsConnected) {
+		this.pcsConnected = pcsConnected;
 	}
 }
