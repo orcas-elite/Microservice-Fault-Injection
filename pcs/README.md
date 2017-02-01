@@ -2,6 +2,14 @@
 
 proxy control service..
 
+## Build
+
+`make`
+
+## Run
+
+`make run`
+
 ## Endpoints
 
 ```
@@ -11,6 +19,8 @@ DELETE  /proxy/{id} 		delete a proxy by its id
 GET     /proxy/{id} 		get a specific proxy
 POST    /proxy/{id}/delay 	configure a delay action on the proxy with the given id
 POST    /proxy/{id}/drop 	configure a drop action on the proxy with the given id
+POST    /proxy/{id}/nlane 	configure a drop action on the proxy with the given id
+POST    /proxy/{id}/metrics 	configure a drop action on the proxy with the given id
 GET     /proxy/{id}/status 	retrieve the status information for the given proxy
 ```
 
