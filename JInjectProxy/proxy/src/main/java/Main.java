@@ -101,6 +101,6 @@ public class Main {
 
 	private static void showHelp() {
 		System.out.println("Usage: [control-port] [proxy-listen-port] [proxyTo] [proxy-id] [master-url] [influxdb-url]");
-		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/ http://0.0.0.0:8089/ ProxyForDatabase  http://0.0.0.0:8080/ http://172.17.0.2:8086/");
+		System.out.println("Example: 8088 8081 http://0.0.0.0:8080/ ProxyForDatabase http://0.0.0.0:8080/ http://172.17.0.2:8086/");
 	}
 }
