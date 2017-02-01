@@ -19,7 +19,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDelayConfig;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDropConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyMetricsConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyNLaneConfig;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyStatus;
 
 
@@ -44,6 +47,7 @@ public class Proxy extends Transparent {
 	private boolean delayEnabled = false;
 	private float delayProbability = 0.0f;
 	private int delayTimeMin = 0;
+	private int delayTimeMax = 0;
 	private int delayTimeRandSpan = 0;
 	
 	// Max active, n-lane bridge
@@ -103,23 +107,38 @@ public class Proxy extends Transparent {
 	}
 	
 	
-	public void setDelay(boolean enabled, float probability, int delayMin, int delayMax) {
-		delayEnabled = enabled;
-		delayProbability = probability;
-		delayTimeMin = delayMin;
-		delayTimeRandSpan = delayMax - delayMin + 1;
-		logger.info(String.format("Proxy setDelay %b %f %d %d", enabled, probability, delayMin, delayMax));
+	public void setDelayConfig(ProxyDelayConfig config) {
+		delayEnabled = config.isEnabled();
+		delayProbability = config.getProbability();
+		delayTimeMin = config.getMin();
+		delayTimeMax = config.getMax();
+		delayTimeRandSpan = config.getMax() - config.getMin() + 1;
+		logger.info(String.format("Proxy setDelay %b %f %d %d", delayEnabled, delayProbability, delayTimeMin, delayTimeMax));
 	}
 	
-	public void setMaxActiveNLaneBridge(boolean enabled, int maxActiveCount) {
-		maxActiveEnabled = enabled;
-		maxActive = maxActiveCount;
-		logger.info(String.format("Proxy setMaxActive %b %d", enabled, maxActiveCount));
+	public ProxyDelayConfig getDelayConfig() {
+		return new ProxyDelayConfig(delayEnabled, delayProbability, delayTimeMin, delayTimeMax);
 	}
 	
-	public void setMetrics(boolean enabled) {
-		metricsEnabled = enabled;
-		logger.info(String.format("Proxy setMetrics %b", enabled));
+	
+	public void setNLaneBridgeConfig(ProxyNLaneConfig config) {
+		maxActiveEnabled = config.isEnabled();
+		maxActive = config.getMaxActive();
+		logger.info(String.format("Proxy setMaxActive %b %d", maxActiveEnabled, maxActive));
+	}
+
+	public ProxyNLaneConfig getNLaneBridgeConfig() {
+		return new ProxyNLaneConfig(maxActiveEnabled, maxActive);
+	}
+	
+	
+	public void setMetricsConfig(ProxyMetricsConfig config) {
+		metricsEnabled = config.isEnabled();
+		logger.info(String.format("Proxy setMetrics %b", metricsEnabled));
+	}
+	
+	public ProxyMetricsConfig getMetricsConfig() {
+		return new ProxyMetricsConfig(metricsEnabled);
 	}
 	
 

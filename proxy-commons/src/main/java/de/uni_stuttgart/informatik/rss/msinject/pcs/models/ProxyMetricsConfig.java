@@ -6,6 +6,11 @@ public class ProxyMetricsConfig {
 	public ProxyMetricsConfig() {
 	}
 
+	public ProxyMetricsConfig(boolean enabled) {
+		super();
+		this.enabled = enabled;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}

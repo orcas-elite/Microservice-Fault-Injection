@@ -7,6 +7,12 @@ public class ProxyNLaneConfig {
 	public ProxyNLaneConfig() {
 	}
 
+	public ProxyNLaneConfig(boolean enabled, int maxActive) {
+		super();
+		this.enabled = enabled;
+		this.maxActive = maxActive;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
