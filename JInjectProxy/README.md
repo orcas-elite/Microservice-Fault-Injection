@@ -22,8 +22,7 @@ Drop and delay are disabled by default.
 
 ## Connection to Master
 
-Proxy tries to send a hello message to [master-url] with a json containing its ID and UUID.
-{ "proxyId": "ProxyForDatabase", "proxyUuid: "UUID" }
+Proxy tries to send a hello message to [master-url] containint the JSON status message.
 
 
 ## Metrics
