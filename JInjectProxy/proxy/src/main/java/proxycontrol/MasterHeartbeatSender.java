@@ -1,17 +1,17 @@
 package proxycontrol;
 
-import java.io.OutputStreamWriter;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.http.HttpMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyStatus;
 import proxy.Proxy;
 
 
@@ -26,6 +26,7 @@ public class MasterHeartbeatSender {
 
 	// Delay between send retries
 	private static final int HeartbeatFrequency = 5000;
+	private boolean pcsConnected = false;
 	
 	
 	public MasterHeartbeatSender(Proxy proxy, String masterUrl) {
@@ -47,33 +48,32 @@ public class MasterHeartbeatSender {
 					while (!Thread.interrupted()) {
 						try {
 							// Try to say hello to master
-							URL url = new URL(masterUrl);
-							HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-							httpCon.setDoOutput(true);
-							httpCon.setRequestMethod("PUT");
-							OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
+							Request request = httpClient.newRequest(masterUrl);
+							request.method(HttpMethod.PUT);
+					        request.content(new StringContentProvider(new Gson().toJson(proxy.getStatus())), "application/json");
 							
-							ProxyStatus statusMsg = proxy.getStatus();		
-							out.write(new Gson().toJson(statusMsg));
-							out.close();
-							
-							if(httpCon.getResponseCode() == 200) {
-								if(!proxy.isPcsConnected()) {
+					        ContentResponse response = request.send();
+					        
+							if(response.getStatus() == 200) {
+								if(!proxy.isPcsConnected() && !pcsConnected) {
+									pcsConnected = true;
 									proxy.setPcsConnected(true);
-									logger.trace("Connected to PCS, Send heartbeat success: " + httpCon.getResponseCode());
+									logger.info("Connected to PCS, Send heartbeat success: " + response.getStatus());
 								}
 								else {
-									logger.trace("Send heartbeat success: " + httpCon.getResponseCode());
+									logger.trace("Send heartbeat success: " + response.getStatus());
 								}
-								return;
 							}
 							else {
-								logger.info("Send heartbeat failure code: " + httpCon.getResponseCode());	
+								pcsConnected = false;
+								logger.info("Send heartbeat failure code: " + response.getStatus());	
 								proxy.setPcsConnected(false);							
 							}
-						} catch (ConnectException e1) {
-							logger.info("Failed to send hello message, unable to connect to " + masterUrl);
+						} catch (ExecutionException e1) {
+							pcsConnected = false;
+							logger.warn("Failed to send hello message, unable to connect to " + masterUrl);
 						} catch (Exception e1) {
+							pcsConnected = false;
 							logger.error("Failed to send hello message", e1);
 						}
 						
