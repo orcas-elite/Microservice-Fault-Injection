@@ -151,11 +151,15 @@ public class ProxyResource {
 	}
 
 	@PUT
-	public Optional<Proxy> addProxy(@Context HttpServletRequest req, Proxy proxy) {
-		String address = req.getRemoteAddr();
-		proxy.setAddress(address);
-		proxy_map.put(proxy.getUuid(), proxy);
-		return Optional.of(proxy);
+	public Optional<Proxy> addProxy(@Context HttpServletRequest req, ProxyStatus proxy) {
+		final Proxy p = new Proxy();
+		p.setAddress(req.getRemoteAddr());
+		p.setControlPort(proxy.getControlPort());
+		p.setProxyPort(proxy.getProxyPort());
+		p.setUuid(proxy.getProxyUuid());
+		p.setId(proxy.getProxyTag());
+		proxy_map.put(proxy.getProxyUuid(), p);
+		return Optional.of(p);
 	}
 
 	@GET
