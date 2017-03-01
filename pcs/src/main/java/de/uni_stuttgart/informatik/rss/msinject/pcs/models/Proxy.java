@@ -51,7 +51,7 @@ public class Proxy {
 	}
 
 	public Boolean setDelayConfig(Client client, ProxyDelayConfig delayConfig) {
-		Response response = client.target("http://" + address + ":" + controlPort + "/control/delay").request().put(Entity.json(delayConfig));
+		Response response = client.target("http://" + address + ":" + controlPort + "/control/delay").request().post(Entity.json(delayConfig));
 		return response.getStatus() == 200;
 	}
 
@@ -60,7 +60,7 @@ public class Proxy {
 	}
 
 	public Boolean setDropConfig(Client client, ProxyDropConfig dropConfig) {
-		Response response = client.target("http://" + address + ":" + controlPort + "/control/drop").request().put(Entity.json(dropConfig));
+		Response response = client.target("http://" + address + ":" + controlPort + "/control/drop").request().post(Entity.json(dropConfig));
 		return response.getStatus() == 200;
 	}
 
@@ -69,7 +69,7 @@ public class Proxy {
 	}
 
 	public Boolean setNLaneConfig(Client client, ProxyNLaneConfig nLaneConfig) {
-		Response response = client.target("http://" + address + ":" + controlPort + "/control/nlane").request().put(Entity.json(nLaneConfig));
+		Response response = client.target("http://" + address + ":" + controlPort + "/control/nlane").request().post(Entity.json(nLaneConfig));
 		return response.getStatus() == 200;
 	}
 
@@ -78,7 +78,7 @@ public class Proxy {
 	}
 
 	public Boolean setMetricsConfig(Client client, ProxyMetricsConfig metricConfig) {
-		Response response = client.target("http://" + address + ":" + controlPort + "/control/metrics").request().put(Entity.json(metricConfig));
+		Response response = client.target("http://" + address + ":" + controlPort + "/control/metrics").request().post(Entity.json(metricConfig));
 		return response.getStatus() == 200;
 	}
 
