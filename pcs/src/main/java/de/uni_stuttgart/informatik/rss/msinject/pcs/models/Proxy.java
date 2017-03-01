@@ -6,8 +6,8 @@ import javax.ws.rs.core.Response;
 
 public class Proxy {
 	private String address;
-	private short controlPort;
-	private short proxyPort;
+	private int controlPort;
+	private int proxyPort;
 	private String id;
 	private String uuid;
 
@@ -18,11 +18,11 @@ public class Proxy {
 		return address;
 	}
 
-	public short getControlPort() {
+	public int getControlPort() {
 		return controlPort;
 	}
 
-	public short getProxyPort() {
+	public int getProxyPort() {
 		return proxyPort;
 	}
 
@@ -32,6 +32,22 @@ public class Proxy {
 
 	public String getUuid() {
 		return uuid;
+	}
+
+	public void setControlPort(int controlPort) {
+		this.controlPort = controlPort;
+	}
+
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public Boolean setDelayConfig(Client client, ProxyDelayConfig delayConfig) {
