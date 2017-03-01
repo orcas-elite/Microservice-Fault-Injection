@@ -1,5 +1,6 @@
 package de.uni_stuttgart.informatik.rss.msinject.pcs.resources;
 
+import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.*;
@@ -12,7 +13,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Path("/proxy")
@@ -34,7 +34,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.setDelayConfig(client, delayConfig));
@@ -46,7 +46,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.getDelayConfig(client));
@@ -58,7 +58,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.setDropConfig(client, dropConfig));
@@ -70,7 +70,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.getDropConfig(client));
@@ -82,7 +82,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.setNLaneConfig(client, nLaneConfig));
@@ -94,7 +94,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.getNLaneConfig(client));
@@ -106,7 +106,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.setMetricsConfig(client, metricsConfig));
@@ -118,7 +118,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.getMetricsConfig(client));
@@ -130,7 +130,7 @@ public class ProxyResource {
 		Proxy proxy = proxy_map.getIfPresent(uuid);
 
 		if (proxy == null) {
-			return Optional.empty();
+			return Optional.absent();
 		}
 
 		return Optional.of(proxy.getProxyStatus(client));
@@ -139,7 +139,7 @@ public class ProxyResource {
 	@GET
 	@Path("/{uuid}")
 	public Optional<Proxy> getProxy(@PathParam("uuid") String uuid) {
-		return Optional.ofNullable(proxy_map.getIfPresent(uuid));
+		return Optional.fromNullable(proxy_map.getIfPresent(uuid));
 	}
 
 	@DELETE
@@ -147,7 +147,7 @@ public class ProxyResource {
 	public Optional<Proxy> delProxy(@PathParam("uuid") String uuid) {
 		Proxy old = proxy_map.getIfPresent(uuid);
 		proxy_map.invalidate(uuid);
-		return Optional.ofNullable(old);
+		return Optional.fromNullable(old);
 	}
 
 	@PUT
