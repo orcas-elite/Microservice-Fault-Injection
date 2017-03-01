@@ -26,7 +26,6 @@ public class MasterHeartbeatSender {
 
 	// Delay between send retries
 	private static final int HeartbeatFrequency = 5000;
-	private boolean pcsConnected = false;
 	
 	
 	public MasterHeartbeatSender(Proxy proxy, String masterUrl) {
@@ -55,26 +54,24 @@ public class MasterHeartbeatSender {
 					        ContentResponse response = request.send();
 					        
 							if(response.getStatus() == 200) {
-								if(!proxy.isPcsConnected() && !pcsConnected) {
-									pcsConnected = true;
+								if(!proxy.isPcsConnected()) {
 									proxy.setPcsConnected(true);
-									logger.info("Connected to PCS, Send heartbeat success: " + response.getStatus());
+									logger.info("Connected to PCS, Send heartbeat success: " + response.getStatus() + " " + response.getContentAsString());
 								}
 								else {
-									logger.trace("Send heartbeat success: " + response.getStatus());
+									logger.trace("Send heartbeat success: " + response.getStatus() + " " + response.getContentAsString());
 								}
 							}
 							else {
-								pcsConnected = false;
-								logger.info("Send heartbeat failure code: " + response.getStatus());	
+								logger.info("Send heartbeat failure code: " + response.getStatus() + " " + response.getContentAsString());	
 								proxy.setPcsConnected(false);							
 							}
 						} catch (ExecutionException e1) {
-							pcsConnected = false;
 							logger.warn("Failed to send hello message, unable to connect to " + masterUrl);
+							proxy.setPcsConnected(false);
 						} catch (Exception e1) {
-							pcsConnected = false;
 							logger.error("Failed to send hello message", e1);
+							proxy.setPcsConnected(false);
 						}
 						
 						// Retry delay
