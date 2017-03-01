@@ -10,6 +10,7 @@ public class ProxyControlServerConfiguration extends Configuration {
 
 
 	public JerseyClientConfiguration getJerseyClient() {
+		jerseyClient.setGzipEnabled(false);
 		return jerseyClient;
 	}
 
