@@ -1,6 +1,6 @@
 jproxy:
     image: jproxy
-    command: java -jar ./status.jar 8089 8090 http://0.0.0.0:8080/ TestProxy http://localhost:8091 http://localhost:8086
+    command: java -jar ./status.jar 8089 8090 http://0.0.0.0:8080/ TestProxy http://localhost:9090/proxy http://localhost:8086
     ports:
         - "8089:8089"  # Control port
         - "8090:8090"  # Proxy listen port
