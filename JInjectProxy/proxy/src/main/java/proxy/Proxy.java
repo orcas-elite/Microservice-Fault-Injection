@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.client.api.Result;
@@ -19,6 +22,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.DistributionType;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDelayConfig;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDropConfig;
 import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyMetricsConfig;
@@ -44,11 +48,10 @@ public class Proxy extends Transparent {
 	private float dropProbability = 0.0f;
 	
 	// Delay
+	private ProxyDelayConfig delayConfig = new ProxyDelayConfig(false, 0, DistributionType.UniformRealDistribution, 0, 0);
 	private boolean delayEnabled = false;
-	private float delayProbability = 0.0f;
-	private int delayTimeMin = 0;
-	private int delayTimeMax = 0;
-	private int delayTimeRandSpan = 0;
+	private double delayProbability = 0.0f;
+	private AbstractRealDistribution delayTimeDistribution = null;
 	
 	// Max active, n-lane bridge
 	private boolean maxActiveEnabled = false;
@@ -108,16 +111,29 @@ public class Proxy extends Transparent {
 	
 	
 	public void setDelayConfig(ProxyDelayConfig config) {
+		delayConfig = config;
 		delayEnabled = config.isEnabled();
 		delayProbability = config.getProbability();
-		delayTimeMin = config.getMin();
-		delayTimeMax = config.getMax();
-		delayTimeRandSpan = config.getMax() - config.getMin() + 1;
-		logger.info(String.format("Proxy setDelay %b %f %d %d", delayEnabled, delayProbability, delayTimeMin, delayTimeMax));
+		switch (config.getDelayTimeDistribution()) {
+		case NormalDistribution:
+			delayTimeDistribution = new NormalDistribution(config.getDelayTimeMean(), config.getDelayTimeRangeSd());
+			break;
+		case UniformRealDistribution:
+			delayTimeDistribution = new UniformRealDistribution(
+					config.getDelayTimeMean() - config.getDelayTimeRangeSd(),
+					config.getDelayTimeMean() + config.getDelayTimeRangeSd());
+			break;
+
+		default:
+			logger.error("Unsupported delay distribution type: " + config.getDelayTimeDistribution());
+			delayEnabled = false;
+			return;
+		}
+		logger.info(String.format("Proxy setDelay %b %f ", delayEnabled, delayProbability) + delayTimeDistribution);
 	}
 	
 	public ProxyDelayConfig getDelayConfig() {
-		return new ProxyDelayConfig(delayEnabled, delayProbability, delayTimeMin, delayTimeMax);
+		return delayConfig;
 	}
 	
 	
@@ -189,7 +205,8 @@ public class Proxy extends Transparent {
 		// Delay packages
 		if (delayEnabled && rd.nextDouble() <= delayProbability) {
 			try {
-				int delayTime = delayTimeMin + rd.nextInt(delayTimeRandSpan);
+				int delayTime = Math.max(0, (int)delayTimeDistribution.sample());
+				System.out.println(delayTime); // TODO TEST
 				if (logger.isTraceEnabled())
 					logger.trace("Delay request by " + delayTime + " " + request);
 				Thread.sleep(delayTime);
