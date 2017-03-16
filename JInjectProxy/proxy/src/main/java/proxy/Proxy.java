@@ -206,7 +206,6 @@ public class Proxy extends Transparent {
 		if (delayEnabled && rd.nextDouble() <= delayProbability) {
 			try {
 				int delayTime = Math.max(0, (int)delayTimeDistribution.sample());
-				System.out.println(delayTime); // TODO TEST
 				if (logger.isTraceEnabled())
 					logger.trace("Delay request by " + delayTime + " " + request);
 				Thread.sleep(delayTime);
