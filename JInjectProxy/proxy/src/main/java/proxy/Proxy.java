@@ -1,6 +1,8 @@
 package proxy;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -60,10 +62,17 @@ public class Proxy extends Transparent {
 	private static AtomicInteger activeRequestsCounter = new AtomicInteger(0);
 	
 	// Metrics
-	private boolean metricsEnabled = true;
+	private volatile boolean metricsEnabled = true;
 	private long requestsServiced = 0;
 	private long requestsDelayed = 0;
+	private long requestsDelayedTime = 0;
+	private long requestsNLaneDelayed = 0;
+	private long requestsNLaneDelayedTime = 0;
 	private long requestsDropped = 0;
+	// Duration of the actual request (excluding delays)
+	private long requestsDuration = 0;
+	private long requestsContentLength = 0;
+	private Map<HttpServletRequest, Long> requestStartTimes = new HashMap<>();
 
 	private final Random rd = new Random();
 	private final Server proxyServer;
@@ -97,6 +106,124 @@ public class Proxy extends Transparent {
 	public void joinProxy() throws InterruptedException {
 		proxyServer.join();
 	}
+	
+	
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		logger.info("Starting init proxy to " + config.getInitParameter("proxyTo"));
+		super.init(config);
+		logger.info("Proxy init finished");
+		started = true;
+	}
+
+	@Override
+	protected void service(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		// Drop packages
+		if (dropEnabled && rd.nextDouble() <= dropProbability) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			if(logger.isTraceEnabled())
+				logger.trace("Dropped request " + request);
+			if(metricsEnabled)
+				requestsDropped++;
+			return; // TODO Better drop response?
+		}
+		super.service(request, response);
+		if(logger.isTraceEnabled())
+			logger.trace("Serviced request " + request);
+		if(metricsEnabled)
+			requestsServiced++;
+	}
+
+	@Override
+	protected void customizeProxyRequest(Request proxyRequest, HttpServletRequest request) {
+		if(request.getContentLength() > 0) {
+			requestsContentLength += request.getContentLength();
+		}
+		
+		// N-lane bridge delay
+		if (maxActiveEnabled) {
+			if (activeRequestsCounter.intValue() >= maxActive) {
+				long delayStart = System.currentTimeMillis();
+				while (activeRequestsCounter.intValue() >= maxActive) {
+					try {
+						synchronized (maxActiveLock) {
+							maxActiveLock.wait();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						return;
+					}
+				}
+				if (metricsEnabled) {
+					requestsNLaneDelayed++;
+					requestsNLaneDelayedTime += System.currentTimeMillis() - delayStart;
+				}
+			}
+			activeRequestsCounter.incrementAndGet();
+		}
+
+		// Delay packages
+		if (delayEnabled && rd.nextDouble() <= delayProbability) {
+			try {
+				int delayTime = Math.max(0, (int)delayTimeDistribution.sample());
+				if (logger.isTraceEnabled())
+					logger.trace("Delay request by " + delayTime + " " + request);
+				Thread.sleep(delayTime);
+				if(metricsEnabled) {
+					requestsDelayed++;
+					requestsDelayedTime += delayTime;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				return;
+			}
+		}
+		
+		if(metricsEnabled) {
+			requestStartTimes.put(request, System.currentTimeMillis());
+		}
+		super.customizeProxyRequest(proxyRequest, request);
+	}	
+
+	
+	
+	// Observe ProxyResponseListener to know when complete
+    protected Response.Listener newProxyResponseListener(HttpServletRequest request, HttpServletResponse response)
+    {
+        return new ProxyResponseListenerObserved(request, response);
+    }
+    
+    protected class ProxyResponseListenerObserved extends ProxyResponseListener {
+
+    	private final HttpServletRequest request;
+    	
+		protected ProxyResponseListenerObserved(HttpServletRequest request, HttpServletResponse response) {
+			super(request, response);
+			this.request = request;
+		}
+    	
+		@Override
+		public void onComplete(Result result) {
+			super.onComplete(result);
+			if (maxActiveEnabled) {
+				activeRequestsCounter.decrementAndGet();
+				synchronized (maxActiveLock) {
+					maxActiveLock.notify();				
+				}
+			}
+			if(metricsEnabled) {
+				Long requestStartTime = requestStartTimes.remove(this.request);
+				if(requestStartTime != null) {
+					System.out.println(System.currentTimeMillis() - requestStartTime);
+					requestsDuration += System.currentTimeMillis() - requestStartTime;
+				}
+			}
+		}
+    }
+    
 
 	
 	public void setDropConfig(ProxyDropConfig config) {
@@ -150,6 +277,9 @@ public class Proxy extends Transparent {
 	
 	public void setMetricsConfig(ProxyMetricsConfig config) {
 		metricsEnabled = config.isEnabled();
+		if(!metricsEnabled){
+			requestStartTimes.clear();
+		}
 		logger.info(String.format("Proxy setMetrics %b", metricsEnabled));
 	}
 	
@@ -157,100 +287,13 @@ public class Proxy extends Transparent {
 		return new ProxyMetricsConfig(metricsEnabled);
 	}
 	
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		logger.info("Starting init proxy to " + config.getInitParameter("proxyTo"));
-		super.init(config);
-		logger.info("Proxy init finished");
-		started = true;
-	}
-
-	@Override
-	protected void service(final HttpServletRequest request, final HttpServletResponse response)
-			throws ServletException, IOException {
-		// Drop packages
-		if (dropEnabled && rd.nextDouble() <= dropProbability) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			if(logger.isTraceEnabled())
-				logger.trace("Dropped request " + request);
-			if(metricsEnabled)
-				requestsDropped++;
-			return; // TODO Better drop?
-		}
-		super.service(request, response);
-		if(logger.isTraceEnabled())
-			logger.trace("Serviced request " + request);
-		if(metricsEnabled)
-			requestsServiced++;
-	}
-
-	@Override
-	protected void customizeProxyRequest(Request proxyRequest, HttpServletRequest request) {
-		
-		if (maxActiveEnabled) {
-			while(activeRequestsCounter.intValue() >= maxActive) {
-				try {
-					synchronized (maxActiveLock) {
-						maxActiveLock.wait();						
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					return;
-				}
-			}
-			activeRequestsCounter.incrementAndGet();
-		}
-
-		// Delay packages
-		if (delayEnabled && rd.nextDouble() <= delayProbability) {
-			try {
-				int delayTime = Math.max(0, (int)delayTimeDistribution.sample());
-				if (logger.isTraceEnabled())
-					logger.trace("Delay request by " + delayTime + " " + request);
-				Thread.sleep(delayTime);
-				if(metricsEnabled)
-					requestsDelayed++;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				return;
-			}
-		}
-		super.customizeProxyRequest(proxyRequest, request);
-	}	
-
 	
-	
-	// Observe ProxyResponseListener to know when complete
-    protected Response.Listener newProxyResponseListener(HttpServletRequest request, HttpServletResponse response)
-    {
-        return new ProxyResponseListenerObserved(request, response);
-    }
-    
-    protected class ProxyResponseListenerObserved extends ProxyResponseListener {
-
-		protected ProxyResponseListenerObserved(HttpServletRequest request, HttpServletResponse response) {
-			super(request, response);
-		}
-    	
-		@Override
-		public void onComplete(Result result) {
-			super.onComplete(result);
-			if (maxActiveEnabled) {
-				activeRequestsCounter.decrementAndGet();
-				synchronized (maxActiveLock) {
-					maxActiveLock.notify();				
-				}
-			}
-		}
-    }
-	
-
 	public ProxyStatus getStatus() {
-		return new ProxyStatus(controlPort, proxyPort, proxyTag, proxyUuid, proxyTo, 
-				started, pcsConnected, requestsServiced, requestsDelayed, requestsDropped);
+		return new ProxyStatus(controlPort, proxyPort, proxyTag, proxyUuid, proxyTo, started, pcsConnected,
+				requestsServiced, requestsDelayed, requestsDelayedTime, requestsNLaneDelayed, requestsNLaneDelayedTime,
+				requestsDropped, requestsDuration, requestsContentLength);
 	}
-    
+
 	public boolean isStarted() {
 		return started;
 	}

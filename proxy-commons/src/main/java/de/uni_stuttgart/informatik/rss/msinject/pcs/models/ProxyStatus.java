@@ -9,16 +9,25 @@ public class ProxyStatus {
 
 	private boolean started;
 	private boolean pcsConnected;
-	private long requestsServiced = 0;
-	private long requestsDelayed = 0;
-	private long requestsDropped = 0;
 
-	
+	// Metrics
+	private long requestsServiced;
+	private long requestsDelayed;
+	private long requestsDelayedTime;
+	private long requestsNLaneDelayed;
+	private long requestsNLaneDelayedTime;
+	private long requestsDropped;
+	// Duration of the actual request (excluding delays)
+	private long requestsDuration;
+	private long requestsContentLength;
+
 	public ProxyStatus() {
 	}
 
 	public ProxyStatus(int controlPort, int proxyPort, String proxyTag, String proxyUuid, String proxyTarget,
-			boolean started, boolean pcsConnected, long requestsServiced, long requestsDelayed, long requestsDropped) {
+			boolean started, boolean pcsConnected, long requestsServiced, long requestsDelayed,
+			long requestsDelayedTime, long requestsNLaneDelayed, long requestsNLaneDelayedTime, long requestsDropped,
+			long requestsDuration, long requestsContentLength) {
 		super();
 		this.controlPort = controlPort;
 		this.proxyPort = proxyPort;
@@ -29,9 +38,13 @@ public class ProxyStatus {
 		this.pcsConnected = pcsConnected;
 		this.requestsServiced = requestsServiced;
 		this.requestsDelayed = requestsDelayed;
+		this.requestsDelayedTime = requestsDelayedTime;
+		this.requestsNLaneDelayed = requestsNLaneDelayed;
+		this.requestsNLaneDelayedTime = requestsNLaneDelayedTime;
 		this.requestsDropped = requestsDropped;
-	}	
-	
+		this.requestsDuration = requestsDuration;
+		this.requestsContentLength = requestsContentLength;
+	}
 
 	public int getControlPort() {
 		return controlPort;
@@ -69,7 +82,27 @@ public class ProxyStatus {
 		return requestsDelayed;
 	}
 
+	public long getRequestsDelayedTime() {
+		return requestsDelayedTime;
+	}
+
+	public long getRequestsNLaneDelayed() {
+		return requestsNLaneDelayed;
+	}
+
+	public long getRequestsNLaneDelayedTime() {
+		return requestsNLaneDelayedTime;
+	}
+
 	public long getRequestsDropped() {
 		return requestsDropped;
+	}
+
+	public long getRequestsDuration() {
+		return requestsDuration;
+	}
+
+	public long getRequestsContentLength() {
+		return requestsContentLength;
 	}
 }
