@@ -17,7 +17,13 @@ import proxy.Proxy;
 
 @Path("control")
 public class ProxyControl {
-	public static Proxy proxy;
+	private static Proxy proxy;
+	private static MetricsManager metricsManager;
+	
+	public static void setup(Proxy proxy, MetricsManager metricsManager) {
+		ProxyControl.proxy = proxy;
+		ProxyControl.metricsManager = metricsManager;
+	}
 
 	@GET
 	@Path("status")
@@ -38,7 +44,10 @@ public class ProxyControl {
 	public String postDrop(final String input) {
 		ProxyDropConfig config = new Gson().fromJson(input, ProxyDropConfig.class);
 		proxy.setDropConfig(config);
-		return new Gson().toJson(proxy.getDropConfig());
+		String cfgJson = new Gson().toJson(proxy.getDropConfig());
+		if(metricsManager != null)
+			metricsManager.logEvent("postDrop", cfgJson);
+		return cfgJson;
 	}
 	
 
@@ -54,7 +63,10 @@ public class ProxyControl {
 	public String postDelay(final String input) {
 		ProxyDelayConfig config = new Gson().fromJson(input, ProxyDelayConfig.class);
 		proxy.setDelayConfig(config);
-		return new Gson().toJson(proxy.getDelayConfig());
+		String cfgJson = new Gson().toJson(proxy.getDelayConfig());
+		if(metricsManager != null)
+			metricsManager.logEvent("postDelay", cfgJson);
+		return cfgJson;
 	}
 	
 
@@ -70,7 +82,10 @@ public class ProxyControl {
 	public String postNLane(final String input) {
 		ProxyNLaneConfig config = new Gson().fromJson(input, ProxyNLaneConfig.class);
 		proxy.setNLaneBridgeConfig(config);
-		return new Gson().toJson(proxy.getNLaneBridgeConfig());
+		String cfgJson = new Gson().toJson(proxy.getNLaneBridgeConfig());
+		if(metricsManager != null)
+			metricsManager.logEvent("postNLane", cfgJson);
+		return cfgJson;
 	}
 	
 	
@@ -86,6 +101,9 @@ public class ProxyControl {
 	public String postMetrics(final String input) {
 		ProxyMetricsConfig config = new Gson().fromJson(input, ProxyMetricsConfig.class);
 		proxy.setMetricsConfig(config);
-		return new Gson().toJson(proxy.getMetricsConfig());
+		String cfgJson = new Gson().toJson(proxy.getMetricsConfig());
+		if(metricsManager != null)
+			metricsManager.logEvent("postMetrics", cfgJson);
+		return cfgJson;
 	}
 }

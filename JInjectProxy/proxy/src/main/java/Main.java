@@ -50,9 +50,10 @@ public class Main {
 			proxy = Proxy.startProxy(proxyPort, controlPort, proxyTo, proxyTag, proxyUuid);
 			
 			// Start metrics
+			MetricsManager metricsManager = null;
 			if(influxDB != null) {
 				logger.info("Starting MetricsManager to influxDb");
-				new MetricsManager(proxyTag, proxyUuid, influxDB, proxy, DbName);
+				metricsManager = new MetricsManager(proxyTag, proxyUuid, influxDB, proxy, DbName);
 			}
 			else {
 				logger.error("Unable to start MetricsManager without influxDb connection");
@@ -67,7 +68,7 @@ public class Main {
 			ServletContextHandler context = new ServletContextHandler(proxyControlServer, "/*");
 			context.addServlet(servlet, "/*");
 			proxyControlServer.start();
-			ProxyControl.proxy = proxy;
+			ProxyControl.setup(proxy, metricsManager);
 			
 			// Start master message sender
 			new MasterHeartbeatSender(proxy, masterUrl);

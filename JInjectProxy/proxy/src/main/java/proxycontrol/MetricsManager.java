@@ -22,10 +22,20 @@ public class MetricsManager {
 	
 	// Frequency pushing metrics to time series database
 	private static final int DbPushFrequency = 1000;
+
+	private final String proxyTag;
+	private final String proxyUuid;
+	private final InfluxDB influxDB;
+	private final String dbName;
 	
 	
 	public MetricsManager(String proxyTag, String proxyUuid, InfluxDB influxDB, Proxy proxy, 
 			String dbName) {
+		this.proxyTag = proxyTag;
+		this.proxyUuid = proxyUuid;
+		this.influxDB = influxDB;
+		this.dbName = dbName;
+		
 		Thread metricsThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -50,8 +60,10 @@ public class MetricsManager {
 									.addField("requestsDropped", proxyStatus.getRequestsDropped())
 									.addField("requestsDuration", proxyStatus.getRequestsDuration())
 									.addField("requestsContentLength", proxyStatus.getRequestsContentLength())
-									.build();							
-							influxDB.write(dbName, "autogen", point);
+									.build();		
+							synchronized (influxDB) {
+								influxDB.write(dbName, "autogen", point);								
+							}
 						}
 					} catch (InterruptedException e) {
 						logger.error("Interrupted", e);
@@ -63,5 +75,19 @@ public class MetricsManager {
 		metricsThread.setName("MetricsThread");
 		metricsThread.setDaemon(true);
 		metricsThread.start();
+	}
+	
+	
+	public void logEvent(String eventType, String eventArgs) {
+		Point point = Point.measurement("ProcessedRequests")
+                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+				.tag("proxyUuid", proxyUuid)
+				.tag("proxyTag", proxyTag)
+				.addField("event", eventType)
+				.addField("eventArgs", eventArgs)
+				.build();		
+		synchronized (influxDB) {
+			influxDB.write(dbName, "autogen", point);								
+		}
 	}
 }
