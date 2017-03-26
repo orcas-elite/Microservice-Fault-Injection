@@ -1,0 +1,23 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+
+logging:
+  level: ALL
+
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: application.log
+      archive: false
+      timeZone: UTC
+
+server:
+  requestLog:
+    appenders:
+      - type: console
+      - type: file
+        currentLogFilename: access.log
+        timeZone: UTC
+        archive: false
