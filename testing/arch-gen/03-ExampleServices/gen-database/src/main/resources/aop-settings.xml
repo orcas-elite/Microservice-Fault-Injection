@@ -4,8 +4,10 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--
     <bean id="opEMII" class="kieker.monitoring.probe.spring.executions.OperationExecutionMethodInvocationInterceptor" />
     <aop:config>
         <aop:advisor advice-ref="opEMII" pointcut="execution(public * com.example..*.*(..))"/>
     </aop:config>
+     -->
 </beans>

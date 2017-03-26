@@ -2,9 +2,9 @@ package com.example.logic;
 
 import java.util.concurrent.TimeUnit;
 
-import kieker.monitoring.core.controller.IMonitoringController;
-import kieker.monitoring.core.controller.MonitoringController;
-import kieker.monitoring.probe.spring.flow.RestInInterceptor;
+//import kieker.monitoring.core.controller.IMonitoringController;
+//import kieker.monitoring.core.controller.MonitoringController;
+//import kieker.monitoring.probe.spring.flow.RestInInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
@@ -21,6 +21,6 @@ public class MicroserviceApplication extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(final InterceptorRegistry registry) {
-		registry.addInterceptor(new RestInInterceptor());
+//		registry.addInterceptor(new RestInInterceptor());
 	}
 }
