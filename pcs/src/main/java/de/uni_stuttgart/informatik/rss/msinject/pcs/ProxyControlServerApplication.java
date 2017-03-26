@@ -1,6 +1,7 @@
 package de.uni_stuttgart.informatik.rss.msinject.pcs;
 
 import de.uni_stuttgart.informatik.rss.msinject.pcs.resources.ProxyResource;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.resources.TagResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
@@ -33,7 +34,9 @@ public class ProxyControlServerApplication extends Application<ProxyControlServe
 				.build(getName());
 
 
-		environment.jersey().register(new ProxyResource(client, configuration.getTimeoutDuration()));
+		final ProxyResource proxyResource = new ProxyResource(client, configuration.getTimeoutDuration());
+		environment.jersey().register(proxyResource);
+		environment.jersey().register(new TagResource(proxyResource));
 	}
 
 }

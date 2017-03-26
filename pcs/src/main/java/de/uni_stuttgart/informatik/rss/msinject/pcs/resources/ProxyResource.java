@@ -7,6 +7,7 @@ import de.uni_stuttgart.informatik.rss.msinject.pcs.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @Path("/proxy")
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,6 +28,10 @@ public class ProxyResource {
 	public ProxyResource(Client client, long duration) {
 		this.client = client;
 		this.proxy_map = CacheBuilder.newBuilder().expireAfterWrite(duration, TimeUnit.SECONDS).build();
+	}
+
+	Stream<Proxy> getByTag(@Nonnull String tag) {
+		return proxy_map.asMap().values().stream().filter(proxy -> proxy.getId().equals(tag));
 	}
 
 	@POST
@@ -166,4 +172,5 @@ public class ProxyResource {
 	public Map<String, Proxy> getProxies() {
 		return proxy_map.asMap();
 	}
+
 }
