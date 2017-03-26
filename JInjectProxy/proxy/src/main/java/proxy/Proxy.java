@@ -217,7 +217,6 @@ public class Proxy extends Transparent {
 			if(metricsEnabled) {
 				Long requestStartTime = requestStartTimes.remove(this.request);
 				if(requestStartTime != null) {
-					System.out.println(System.currentTimeMillis() - requestStartTime);
 					requestsDuration += System.currentTimeMillis() - requestStartTime;
 				}
 			}

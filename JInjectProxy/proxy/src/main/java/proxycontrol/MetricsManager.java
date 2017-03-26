@@ -7,6 +7,7 @@ import org.influxdb.dto.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyStatus;
 import proxy.Proxy;
 
 
@@ -22,10 +23,6 @@ public class MetricsManager {
 	// Frequency pushing metrics to time series database
 	private static final int DbPushFrequency = 1000;
 	
-	private long requestsServiced = 0;
-	private long requestsDelayed = 0;
-	private long requestsDropped = 0;
-	
 	
 	public MetricsManager(String proxyTag, String proxyUuid, InfluxDB influxDB, Proxy proxy, 
 			String dbName) {
@@ -37,27 +34,24 @@ public class MetricsManager {
 						Thread.sleep(DbPushFrequency);
 						
 						if(proxy.getMetricsEnabled()) {
-							long proxyRequestsServiced = proxy.getRequestsServiced();
-							long proxyRequestsDelayed = proxy.getRequestsDelayed();
-							long proxyRequestsDropped = proxy.getRequestsDropped();
+							proxy.getRequestsServiced();
 							
-							long requestsServicedDelta = proxyRequestsServiced - requestsServiced;
-							long requestsDelayedDelta = proxyRequestsDelayed - requestsDelayed;
-							long requestsDroppedDelta = proxyRequestsDropped - requestsDropped;
-							
+							ProxyStatus proxyStatus = proxy.getStatus();
+
 							Point point = Point.measurement("ProcessedRequests")
 					                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
 									.tag("proxyUuid", proxyUuid)
 									.tag("proxyTag", proxyTag)
-									.addField("requestsServiced", requestsServicedDelta)
-									.addField("requestsDelayed", requestsDelayedDelta)
-									.addField("requestsDropped", requestsDroppedDelta)
+									.addField("requestsServiced", proxyStatus.getRequestsServiced())
+									.addField("requestsDelayed", proxyStatus.getRequestsDelayed())
+									.addField("requestsDelayedTime", proxyStatus.getRequestsDelayedTime())
+									.addField("requestsNLaneDelayed", proxyStatus.getRequestsNLaneDelayed())
+									.addField("requestsNLaneDelayedTime", proxyStatus.getRequestsNLaneDelayedTime())
+									.addField("requestsDropped", proxyStatus.getRequestsDropped())
+									.addField("requestsDuration", proxyStatus.getRequestsDuration())
+									.addField("requestsContentLength", proxyStatus.getRequestsContentLength())
 									.build();							
 							influxDB.write(dbName, "autogen", point);
-														
-							requestsServiced = proxyRequestsServiced;
-							requestsDelayed = proxyRequestsDelayed;
-							requestsDropped = proxyRequestsDropped;
 						}
 					} catch (InterruptedException e) {
 						logger.error("Interrupted", e);
