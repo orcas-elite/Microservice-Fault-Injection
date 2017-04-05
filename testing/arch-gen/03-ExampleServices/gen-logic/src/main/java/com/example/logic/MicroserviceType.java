@@ -12,6 +12,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.hystrix.CommandRequest;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -70,30 +72,34 @@ public abstract class MicroserviceType {
 	
 	@RequestMapping(value = "/login", method = GET)
 	public String doLogin() {
+
+		// Integer delay = requestDelay("doLogin");
+		// try {
+		// Thread.sleep(delay);
+		// } catch(InterruptedException ie) {
+		// System.out.println("Exception occurred while trying to inject delay
+		// of " + delay + ". (" + ie.getMessage() + ")");
+		// }
+
+//		restTemplate.getForObject("http://database:8080/login", String.class);
+//		return "Operation doLogin executed successfully.";
 		
-//		Integer delay = requestDelay("doLogin");
-//	try {
-//		Thread.sleep(delay);
-//	} catch(InterruptedException ie) {
-//		System.out.println("Exception occurred while trying to inject delay of " + delay + ". (" + ie.getMessage() + ")");
-//	}
-		
-	restTemplate.getForObject("http://database:8080/login", String.class);
-	
-		return "Operation doLogin executed successfully.";
+		return new CommandRequest(restTemplate, "logic", "http://database:8080/login").execute();
 	}
 	@RequestMapping(value = "/order", method = GET)
 	public String doOrder() {
+
+		// Integer delay = requestDelay("doOrder");
+		// try {
+		// Thread.sleep(delay);
+		// } catch(InterruptedException ie) {
+		// System.out.println("Exception occurred while trying to inject delay
+		// of " + delay + ". (" + ie.getMessage() + ")");
+		// }
+
+//		restTemplate.getForObject("http://database:8080/order", String.class);
+//		return "Operation doOrder executed successfully.";
 		
-//		Integer delay = requestDelay("doOrder");
-//	try {
-//		Thread.sleep(delay);
-//	} catch(InterruptedException ie) {
-//		System.out.println("Exception occurred while trying to inject delay of " + delay + ". (" + ie.getMessage() + ")");
-//	}
-		
-	restTemplate.getForObject("http://database:8080/order", String.class);
-	
-		return "Operation doOrder executed successfully.";
+		return new CommandRequest(restTemplate, "logic", "http://database:8080/order").execute();
 	}
 }
