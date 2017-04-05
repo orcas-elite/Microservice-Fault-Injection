@@ -12,6 +12,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.hystrix.CommandRequest;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -89,10 +91,11 @@ public abstract class MicroserviceType {
 //	} catch(InterruptedException ie) {
 //		System.out.println("Exception occurred while trying to inject delay of " + delay + ". (" + ie.getMessage() + ")");
 //	}
-		
-	restTemplate.getForObject("http://logic:8080/login", String.class);
-	
-		return "Operation getLogin executed successfully.";
+
+		// restTemplate2.getForObject("http://logic:8080/login", String.class);
+		// return "Operation getLogin executed successfully.";
+
+		return new CommandRequest(restTemplate, "portal", "http://logic:8080/login").execute();
 	}
 	@RequestMapping(value = "/order", method = GET)
 	public String getOrder() {
@@ -104,8 +107,9 @@ public abstract class MicroserviceType {
 //		System.out.println("Exception occurred while trying to inject delay of " + delay + ". (" + ie.getMessage() + ")");
 //	}
 		
-	restTemplate.getForObject("http://logic:8080/order", String.class);
-	
-		return "Operation getOrder executed successfully.";
+//		restTemplate2.getForObject("http://logic:8080/order", String.class);	
+//		return "Operation getOrder executed successfully.";
+		
+		return new CommandRequest(restTemplate, "portal", "http://logic:8080/order").execute();
 	}
 }

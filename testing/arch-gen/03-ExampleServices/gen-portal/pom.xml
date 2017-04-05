@@ -72,6 +72,12 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		    <artifactId>sigar</artifactId>
 		    <version>1.6.5.132-6</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-core</artifactId>
+			<version>1.5.10</version>
+		</dependency>
 		
     </dependencies>
     
