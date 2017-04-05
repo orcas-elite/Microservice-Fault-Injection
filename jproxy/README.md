@@ -1,13 +1,9 @@
-# Proxy
+# JInjectProxy
 
 ## Overview
 
 HTTP proxy supporting drop, delay (and more coming soon) for requests.
 Written in java, based on jetty and jersey.
-
-Main project is in "proxy" folder.
-request-test is a simple http request test (can also be used for performance testing).
-test-server is a simple http server, returning a hello.
 
 Each Proxy has an ID identifying its role in the system. Furthermore each proxy has a random UUID assigned at startup.
 
