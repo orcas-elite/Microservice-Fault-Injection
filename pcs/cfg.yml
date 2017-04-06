@@ -1,10 +1,5 @@
-server:
-  applicationConnectors:
-    - type: http
-      port: 9090
-
 logging:
-  level: ALL
+  level: INFO
 
   appenders:
     - type: console
@@ -14,6 +9,9 @@ logging:
       timeZone: UTC
 
 server:
+  applicationConnectors:
+  - type: http 
+    port: 9090
   requestLog:
     appenders:
       - type: console
