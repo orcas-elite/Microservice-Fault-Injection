@@ -25,25 +25,24 @@ services:
       - "8080:8080"
     links:
       - logic
-  logic_real:  # The real logic container
+  logicreal:  # The real logic container
     image: orcaselite/examples_gen-logic
     links:
       - database
-  database_real:  # The real database container
+  databasereal:  # The real database container
     image: orcaselite/examples_gen-database
 
   logic:  # Logic proxy
     image: orcaselite/jproxy
-    command: java -jar ./jproxy.jar 8089 8080 http://logic_real:8080/ LogicProxy http://pcs:9090/proxy http://influxdb:8086
+    command: java -jar ./jproxy.jar 8089 8080 http://logicreal:8080/ LogicProxy http://pcs:9090/proxy http://influxdb:8086
     links:
-      - logic_real
+      - logicreal
       - pcs
       - influxdb
   database:  # Database proxy
     image: orcaselite/jproxy
-    command: java -jar ./jproxy.jar 8089 8080 http://database_real:8080/ DatabaseProxy http://pcs:9090/proxy http://influxdb:8086
+    command: java -jar ./jproxy.jar 8089 8080 http://databasereal:8080/ DatabaseProxy http://pcs:9090/proxy http://influxdb:8086
     links:
-      - database_real
+      - databasereal
       - pcs
       - influxdb
-
