@@ -1,2 +1,2 @@
 mvn package
-docker build -t jproxy .
+docker build -t orcaselite/jproxy .

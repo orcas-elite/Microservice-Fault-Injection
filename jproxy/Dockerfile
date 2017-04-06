@@ -3,6 +3,6 @@ FROM openjdk:alpine
 MAINTAINER  Jonas Grunert <public@jonas-grunert.de>
 WORKDIR /jproxy
 
-ADD target/status-0.0.1-SNAPSHOT.jar /jproxy/status.jar
+ADD target/jproxy-0.0.1-SNAPSHOT.jar /jproxy/jproxy.jar
 
-EXPOSE 8088 8081
+EXPOSE 8089 8090

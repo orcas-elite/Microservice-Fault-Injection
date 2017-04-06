@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb
+  pcs:
+    image: orcaselite/pcs
+    ports:
+      - "9090:9090"
+    links:
+      - influxdb
+      - grafana
+
+  portal:  # Frontend
+    image: orcaselite/examples_gen-portal
+    ports:
+      - "8080:8080"
+    links:
+      - logic
+  logic_real:  # The real logic container
+    image: orcaselite/examples_gen-logic
+    links:
+      - database
+  database_real:  # The real database container
+    image: orcaselite/examples_gen-database
+
+  logic:  # Logic proxy
+    image: orcaselite/jproxy
+    command: java -jar ./jproxy.jar 8089 8080 http://logic_real:8080/ LogicProxy http://pcs:9090/proxy http://influxdb:8086
+    links:
+      - logic_real
+      - pcs
+      - influxdb
+  database:  # Database proxy
+    image: orcaselite/jproxy
+    command: java -jar ./jproxy.jar 8089 8080 http://database_real:8080/ DatabaseProxy http://pcs:9090/proxy http://influxdb:8086
+    links:
+      - database_real
+      - pcs
+      - influxdb
+

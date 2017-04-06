@@ -1,18 +1,17 @@
 IMAGE=pcs
-TAG=latest
 
 build:
 	mvn package
-	docker build -t $(IMAGE):$(TAG) .
+	docker build -t orcaselite/$(IMAGE) .
 
 jar:
 	java -jar target/pcs.jar server cfg.yml
 
 run:
-	docker run -it -p 9090:9090 $(IMAGE):$(TAG)
+	docker run -it -p 9090:9090 $(IMAGE)
 
 bash:
-	docker run -it -P $(IMAGE):$(TAG) bash
+	docker run -it -P $(IMAGE) bash
 
 default:
 	build
