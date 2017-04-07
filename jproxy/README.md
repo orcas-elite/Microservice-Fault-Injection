@@ -11,7 +11,7 @@ Each Proxy has an ID identifying its role in the system. Furthermore each proxy 
 ## Starting
 
 Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
-Example: "8089 8090 http://0.0.0.0:8080/ ProxyForDatabase http://0.0.0.0:8091/ http://172.17.0.2:8086/"
+Example: "8089 8080 http://0.0.0.0:8080/ ProxyForDatabase http://0.0.0.0:8091/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
 
@@ -53,8 +53,8 @@ Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
 {
-  enabled: true,
-  probability: 0.74
+  "enabled": true,
+  "probability": 0.74
 }
 Output:
 200, Config json (same as input)
@@ -65,10 +65,10 @@ Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and
 
 Input:
 {
-  enabled: true,
-  probability: 0.74,
-  min: 500,
-  max: 800
+  "enabled": true,
+  "probability": 0.74,
+  "min": 500,
+  "max": 800
 }
 Output:
 200, Config json (same as input)
@@ -79,8 +79,8 @@ Set n-lane bridge delay configuration, enabled, maximum active requests.
 
 Input:
 {
-  enabled: true,
-  maxActive: 10
+  "enabled": true,
+  "maxActive": 10
 }
 Output:
 200, Config json (same as input)
@@ -91,7 +91,7 @@ Enables or disables metrics.
 
 Input:
 {
-  enabled: true
+  "enabled": true
 }
 Output:
 200, Config json (same as input)
