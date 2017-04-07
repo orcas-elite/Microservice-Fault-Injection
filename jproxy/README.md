@@ -46,16 +46,21 @@ The proxy can be controlled and configured using REST:
 #### GET http://localhost:8089/control/status
 Get proxy status, example:
 
-Output: "{"controlPort":8089, "proxyPort":8090,"proxyTag":"TestProxy","proxyUuid":"f6ab607c-b451-4da1-a2ca-039c87529cb2","proxyTarget":"http://0.0.0.0:8080/", "started":true, "pcsConnected":false, "requestsServiced":3,"requestsDelayed":0, "requestsDropped":0}"
+Output: 
+```javascript
+"{"controlPort":8089, "proxyPort":8090,"proxyTag":"TestProxy","proxyUuid":"f6ab607c-b451-4da1-a2ca-039c87529cb2","proxyTarget":"http://0.0.0.0:8080/", "started":true, "pcsConnected":false, "requestsServiced":3,"requestsDelayed":0, "requestsDropped":0}"
+```
 
 #### GET/PUT http://localhost:8089/control/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
 
 Input:
+```javascript
 {
   "enabled": true,
   "probability": 0.74
 }
+```
 Output:
 200, Config json (same as input)
 
@@ -64,6 +69,7 @@ Output:
 Set delay configuration, enabled, delay probability (0.0 to 1.0), delay mean and delay range/standard-deviation (in milliseconds). Example: 
 
 Input:
+```javascript
 {
   "enabled": true,
   "probability": 1.00,
@@ -71,6 +77,7 @@ Input:
   "delayTimeMean": 2000,
   "delayTimeRangeSd": 8000
 }
+```
 Output:
 200, Config json (same as input)
 
@@ -79,10 +86,12 @@ Output:
 Set n-lane bridge delay configuration, enabled, maximum active requests.
 
 Input:
+```javascript
 {
   "enabled": true,
   "maxActive": 10
 }
+```
 Output:
 200, Config json (same as input)
 
@@ -91,8 +100,10 @@ Output:
 Enables or disables metrics.
 
 Input:
+```javascript
 {
   "enabled": true
 }
+```
 Output:
 200, Config json (same as input)
