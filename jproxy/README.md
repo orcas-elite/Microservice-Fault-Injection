@@ -11,7 +11,8 @@ Each Proxy has an ID identifying its role in the system. Furthermore each proxy 
 ## Starting
 
 Usage: "[control-port] [proxy-listen-port] [proxy-to] [proxy-id] [master-url] [influxdb-url]"
-Example: "8089 8080 http://0.0.0.0:8080/ ProxyForDatabase http://0.0.0.0:8091/ http://172.17.0.2:8086/"
+
+Example: "8089 8080 http://target:8080/ ProxyForDatabase http://pcs:9090/ http://172.17.0.2:8086/"
 
 Drop and delay are disabled by default.
 
