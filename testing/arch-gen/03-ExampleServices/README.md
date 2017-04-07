@@ -11,7 +11,7 @@ Microservice architecture itself consists of 3 services: portal-->logic-->databa
 ## Instrumented compose
 
 With proxies portal-->logic-->logicreal*-->database*-->databasereal
-* are proxies
+*are proxies
 
 Additional images:
 - pcs: ProxyControlServer
