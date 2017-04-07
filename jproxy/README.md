@@ -47,9 +47,7 @@ The proxy can be controlled and configured using REST:
 Get proxy status, example:
 
 Output: 
-```javascript
 "{"controlPort":8089, "proxyPort":8090,"proxyTag":"TestProxy","proxyUuid":"f6ab607c-b451-4da1-a2ca-039c87529cb2","proxyTarget":"http://0.0.0.0:8080/", "started":true, "pcsConnected":false, "requestsServiced":3,"requestsDelayed":0, "requestsDropped":0}"
-```
 
 #### GET/PUT http://localhost:8089/control/drop
 Set drop configuration, enabled and drop probability (0.0 to 1.0). Example:
