@@ -67,6 +67,7 @@ Input:
 {
   "enabled": true,
   "probability": 0.74,
+  "delayTimeDistribution": UniformRealDistribution
   "min": 500,
   "max": 800
 }
