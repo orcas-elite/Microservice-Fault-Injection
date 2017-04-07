@@ -61,15 +61,15 @@ Output:
 
 
 #### GET/PUT http://localhost:8089/control/delay
-Set delay configuration, enabled, delay probability (0.0 to 1.0) and minimum and maximum delay (in milliseconds). Example: 
+Set delay configuration, enabled, delay probability (0.0 to 1.0), delay mean and delay range/standard-deviation (in milliseconds). Example: 
 
 Input:
 {
   "enabled": true,
-  "probability": 0.74,
-  "delayTimeDistribution": UniformRealDistribution
-  "min": 500,
-  "max": 800
+  "probability": 1.00,
+  "delayTimeDistribution": "UniformRealDistribution",
+  "delayTimeMean": 2000,
+  "delayTimeRangeSd": 8000
 }
 Output:
 200, Config json (same as input)
