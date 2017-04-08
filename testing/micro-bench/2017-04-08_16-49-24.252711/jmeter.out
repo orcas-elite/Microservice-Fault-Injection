@@ -1,0 +1,6 @@
+Writing log file to: /home/jan/workspace/Microservice-Fault-Injection/testing/micro-bench/2017-04-08_16-49-24.252711/jmeter.log
+Created the tree successfully using /home/jan/workspace/Microservice-Fault-Injection/testing/micro-bench/2017-04-08_16-49-24.252711/modified_requests.jmx
+Starting the test @ Sat Apr 08 16:49:25 CEST 2017 (1491662965530)
+Waiting for possible Shutdown/StopTestNow/Heapdump message on port 4445
+Tidying up ...    @ Sat Apr 08 17:00:25 CEST 2017 (1491663625659)
+... end of run

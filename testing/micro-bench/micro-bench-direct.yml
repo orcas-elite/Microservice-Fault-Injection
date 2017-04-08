@@ -1,0 +1,10 @@
+execution:
+- concurrency: 100
+  ramp-up: 1m
+  hold-for: 10m
+  scenario: test-direct
+
+scenarios:
+  test-direct:
+    requests:
+    - http://localhost:8080

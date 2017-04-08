@@ -1,0 +1,17 @@
+{
+ "scenarios": {
+  "test-proxy": {
+   "requests": [
+    "http://localhost:8090"
+   ]
+  }
+ }, 
+ "execution": [
+  {
+   "ramp-up": "1m", 
+   "hold-for": "10m", 
+   "concurrency": 100, 
+   "scenario": "test-proxy"
+  }
+ ]
+}
