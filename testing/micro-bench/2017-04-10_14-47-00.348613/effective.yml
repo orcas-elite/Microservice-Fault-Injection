@@ -1,0 +1,265 @@
+---
+cli-aliases:
+  cloud:
+    provisioning: cloud
+  detach:
+    modules:
+      cloud:
+        detach: true
+  func:
+    settings:
+      aggregator: functional-consolidator
+  gui:
+    modules:
+      jmeter:
+        gui: true
+  install-tools:
+    services:
+    - install-checker
+  local:
+    provisioning: local
+  locations:
+    modules:
+      cloud:
+        dump-locations: true
+    provisioning: cloud
+  report:
+    reporting:
+    - blazemeter
+  sequential:
+    modules:
+      local:
+        sequential: true
+execution:
+- concurrency:
+    local: 1
+  delay: 0
+  distributed: []
+  executor: jmeter
+  hold-for: 10m
+  iterations: null
+  ramp-up: 1m
+  scenario: test-proxy
+  start-at: 0
+  steps: null
+  throughput:
+    local: null
+  write-xml-jtl: error
+install-id: c290b39e0
+modules:
+  ab:
+    class: bzt.modules.ab.ApacheBenchmarkExecutor
+  android-emulator:
+    class: bzt.modules.services.AndroidEmulatorLoader
+  appium:
+    class: bzt.modules.services.AppiumLoader
+  blazemeter:
+    class: bzt.modules.blazemeter.BlazeMeterUploader
+  capturehar:
+    class: bzt.modules.blazemeter.ServiceStubCaptureHAR
+  chrome-metric-reporter:
+    class: bzt.modules.chrome.MetricReporter
+  chrome-profiler:
+    class: bzt.modules.chrome.ChromeProfiler
+    processors:
+      trace:
+        class: bzt.modules.chrome.TraceProcessor
+        extractors:
+        - bzt.modules.chrome.TabNameExtractor
+        - bzt.modules.chrome.MemoryMetricsExtractor
+  cloud:
+    check-interval: 5s
+    class: bzt.modules.blazemeter.CloudProvisioning
+    default-location: us-central1-a
+    use-deprecated-api: true
+  console:
+    class: bzt.modules.console.ConsoleStatusReporter
+    disable: auto
+    screen: console
+  consolidator:
+    buffer-multiplier: 2
+    buffer-scale-choice: 0.5
+    class: bzt.modules.aggregator.ConsolidatingAggregator
+    generalize-labels: false
+    ignore-labels:
+    - ignore
+    max-buffer-len: .inf
+    min-buffer-len: 2
+    percentiles:
+    - 0.0
+    - 50.0
+    - 90.0
+    - 95.0
+    - 99.0
+    - 99.9
+    - 100.0
+    rtimes-len: 1000
+  final-stats:
+    class: bzt.modules.reporting.FinalStatus
+  final_stats:
+    class: bzt.modules.reporting.FinalStatus
+  functional-consolidator:
+    class: bzt.modules.functional.FunctionalAggregator
+  gatling:
+    class: bzt.modules.gatling.GatlingExecutor
+    properties:
+      gatling.data.file.bufferSize: 256
+  grinder:
+    class: bzt.modules.grinder.GrinderExecutor
+    path: ~/.bzt/grinder-taurus/lib/grinder.jar
+    properties:
+      grinder.useConsole: false
+  install-checker:
+    class: bzt.modules.services.InstallChecker
+  jmeter:
+    class: bzt.modules.jmeter.JMeterExecutor
+    download-link: null
+    gui: false
+    memory-xmx: null
+    path: /home/jan/.bzt/jmeter-taurus/bin/jmeter.sh
+    plugins:
+    - jpgc-casutg
+    - jpgc-dummy
+    - jpgc-ffw
+    - jpgc-fifo
+    - jpgc-functions
+    - jpgc-json
+    - jpgc-perfmon
+    - jpgc-prmctl
+    - jpgc-tst
+    properties:
+      jmeter.save.saveservice.autoflush: 'true'
+      jmeter.save.saveservice.connect_time: 'true'
+      jmeterengine.force.system.exit: 'true'
+      mode: Stripped
+      summariser.name: ''
+    shutdown-port: 4445
+    shutdown-wait: 5
+    system-properties:
+      sun.net.inetaddr.ttl: 0
+    version: '3.1'
+    xml-jtl-flags: {}
+  junit-xml:
+    class: bzt.modules.reporting.JUnitXMLReporter
+  local:
+    class: bzt.modules.provisioning.Local
+    sequential: false
+  locust:
+    class: bzt.modules.locustio.LocustIOExecutor
+  monitoring:
+    class: bzt.modules.monitoring.Monitoring
+  passfail:
+    class: bzt.modules.passfail.PassFailStatus
+  pbench:
+    class: bzt.modules.pbench.PBenchExecutor
+  proxy2jmx:
+    class: bzt.modules.proxy2jmx.Proxy2JMX
+  screenshoter:
+    class: bzt.modules.blazemeter.ServiceStubScreenshoter
+  selenium:
+    class: bzt.modules.selenium.SeleniumExecutor
+    selenium-tools:
+      junit:
+        hamcrest-core: ~/.bzt/selenium-taurus/tools/junit/hamcrest-core.jar
+        jar-name: compiled.jar
+        json-jar: ~/.bzt/selenium-taurus/tools/junit/json.jar
+        path: ~/.bzt/selenium-taurus/tools/junit/junit.jar
+        selenium-server: ~/.bzt/selenium-taurus/selenium-server.jar
+        working-dir: classes
+      mocha:
+        tools-dir: ~/.bzt/selenium-taurus/mocha
+      nose:
+        working-dir: classes
+      rspec:
+        interpreter: ruby
+      testng:
+        hamcrest-core: ~/.bzt/selenium-taurus/tools/testng/hamcrest-core.jar
+        jar-name: compiled.jar
+        json-jar: ~/.bzt/selenium-taurus/tools/testng/json.jar
+        path: ~/.bzt/selenium-taurus/tools/testng/testng.jar
+        selenium-server: ~/.bzt/selenium-taurus/selenium-server.jar
+        working-dir: classes
+  shellexec:
+    class: bzt.modules.shellexec.ShellExecutor
+  siege:
+    class: bzt.modules.siege.SiegeExecutor
+  tsung:
+    class: bzt.modules.tsung.TsungExecutor
+  unpacker:
+    class: bzt.modules.services.Unpacker
+provisioning: local
+reporting:
+- dump-csv: null
+  dump-xml: null
+  failed-labels: false
+  module: final-stats
+  percentiles: true
+  summary: true
+  test-duration: true
+- module: console
+scenarios:
+  test-proxy:
+    concurrent-pool-size: 4
+    content-encoding: null
+    data-sources: []
+    default-address: null
+    disable-listeners: true
+    follow-redirects: null
+    force-parent-sample: true
+    headers: {}
+    keepalive: null
+    modifications: {}
+    properties: {}
+    requests:
+    - assert: []
+      assert-jsonpath: []
+      assert-xpath: []
+      body: null
+      body-file: null
+      content-encoding: null
+      extract-css-jquery: {}
+      extract-jsonpath: {}
+      extract-regexp: {}
+      extract-xpath: {}
+      follow-redirects: null
+      headers: {}
+      jsr223: []
+      keepalive: null
+      label: http://localhost:8090
+      method: GET
+      think-time: null
+      timeout: null
+      upload-files: []
+      url: http://localhost:8090
+    retrieve-resources: true
+    retrieve-resources-regex: null
+    store-cache: true
+    store-cookie: true
+    think-time: null
+    timeout: null
+    use-dns-cache-mgr: true
+    variables: {}
+services:
+- local:
+  - metrics:
+    - cpu
+    - mem
+    - bytes-sent
+    - bytes-recv
+    - disk-read
+    - disk-write
+    - disk-space
+    - engine-loop
+    - conn-all
+  module: monitoring
+  run-at: local
+settings:
+  aggregator: consolidator
+  artifacts-dir: '%Y-%m-%d_%H-%M-%S.%f'
+  check-interval: 1
+  check-updates: true
+  default-executor: jmeter
+  hostaliases: {}
+  proxy: {}
+version: 1.8.4
+

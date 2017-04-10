@@ -1,10 +1,11 @@
+---
 execution:
 - concurrency: 1
-  ramp-up: 1m
   hold-for: 10m
+  ramp-up: 1m
   scenario: test-proxy
-
 scenarios:
   test-proxy:
     requests:
     - http://localhost:8090
+

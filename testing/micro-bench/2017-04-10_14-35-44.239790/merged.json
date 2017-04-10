@@ -1,0 +1,17 @@
+{
+ "scenarios": {
+  "test-direct": {
+   "requests": [
+    "http://localhost:8080"
+   ]
+  }
+ }, 
+ "execution": [
+  {
+   "ramp-up": "1m", 
+   "hold-for": "10m", 
+   "concurrency": 1, 
+   "scenario": "test-direct"
+  }
+ ]
+}
