@@ -22,6 +22,8 @@ POST    /proxy/{id}/drop 	configure a drop action on the proxy with the given id
 POST    /proxy/{id}/nlane 	configure a drop action on the proxy with the given id
 POST    /proxy/{id}/metrics 	configure a drop action on the proxy with the given id
 GET     /proxy/{id}/status 	retrieve the status information for the given proxy
+GET     /tag/{tag}/{delay,drop,nlane} 	get delay, drop or nlane for all proxies with given tag
+POST    /tag/{tag}/{delay,drop,nlane} 	configure delay, drop or nlane for all proxies with given tag
 ```
 
 POST/PUT data should be `application/json`, successful responses will also be `application/json`
