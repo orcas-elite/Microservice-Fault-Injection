@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: portal
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: portal
+    spec:
+      containers:
+      - image: orcaselite/examples_gen-portal
+        name: portal
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+status: {}

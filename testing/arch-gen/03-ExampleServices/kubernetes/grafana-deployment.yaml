@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: grafana
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: grafana
+    spec:
+      containers:
+      - image: grafana/grafana:latest
+        name: grafana
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+status: {}

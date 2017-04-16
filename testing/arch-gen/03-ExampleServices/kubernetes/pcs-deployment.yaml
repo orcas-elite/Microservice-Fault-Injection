@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: pcs
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: pcs
+    spec:
+      containers:
+      - image: orcaselite/pcs
+        name: pcs
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+status: {}
