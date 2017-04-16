@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: database
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: database
+    spec:
+      containers:
+      - args:
+        - java
+        - -jar
+        - ./jproxy.jar
+        - "8089"
+        - "8081"
+        - http://localhost:8080/
+        - DatabaseProxy
+        - http://pcs:9090/proxy
+        - http://influxdb:8086
+        image: orcaselite/jproxy
+        name: database
+        resources: {}
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        - containerPort: 8088
+          protocol: TCP
+
+      - image: orcaselite/examples_gen-database
+        name: databasereal
+        resources: {}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+status: {}
