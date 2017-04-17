@@ -1,0 +1,11 @@
+execution:
+- concurrency: 1
+  ramp-up: 1m
+  hold-for: 10m
+  scenario: loadgen
+
+scenarios:
+  loadgen:
+    requests:
+    - ###TARGET_URL###/login
+    - ###TARGET_URL###/order
