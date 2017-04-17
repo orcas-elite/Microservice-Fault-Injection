@@ -9,7 +9,7 @@ make
 ## Usage
 
 ```bash
-docker run -e TARGET_URL=http://my.frontend.url:8080 orcaselite/loadgen
+docker run -e TARGET_URL=http://my.frontend.url:8080 -e RUNS=5 orcaselite/loadgen
 ```
 
 or 
