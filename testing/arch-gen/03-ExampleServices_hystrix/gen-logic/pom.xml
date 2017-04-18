@@ -5,7 +5,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example.logic</groupId>
-	<artifactId>logic</artifactId>
+	<artifactId>logic-hystrix</artifactId>
 	<version>1.2.5</version>
 	<packaging>jar</packaging>
 

@@ -6,7 +6,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.database</groupId>
-    <artifactId>database</artifactId>
+    <artifactId>database-nohystrix</artifactId>
     <version>2.1.7</version>
     <packaging>jar</packaging>
 
