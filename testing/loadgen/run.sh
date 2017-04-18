@@ -9,8 +9,11 @@ while true; do
 	echo "failed to reach ${TARGET_URL}"
     sleep 5
 done
+echo "reached target URL, beginning tests.."
 sed -i "s|###TARGET_URL###|${TARGET_URL}|g" /lgen/cfg.yml
-for i in {1..${RUNS}}; do
-  exec bzt /lgen/cfg.yml
+mkdir /lgen/results && cd /lgen/results
+for i in $(seq 1 $RUNS); do
+  bzt /lgen/cfg.yml
 done
-read -rsp $'Press any key to continue...\n' -n1 key
+echo "serving result dir now"
+python -m SimpleHTTPServer
