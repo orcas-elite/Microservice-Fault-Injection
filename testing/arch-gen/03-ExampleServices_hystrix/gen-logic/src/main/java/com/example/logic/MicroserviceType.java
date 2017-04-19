@@ -1,29 +1,22 @@
 package com.example.logic;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-//import kieker.monitoring.probe.spring.flow.RestOutInterceptor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.hystrix.CommandRequest;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 
 public abstract class MicroserviceType {
 	protected String type = "logic";
 	protected String version = "1.0.0";
 	protected static String uuid = java.util.UUID.randomUUID().toString();
-	private int delay = 0;
 	private RestTemplate restTemplate = new RestTemplate();
 	
     public MicroserviceType() {
