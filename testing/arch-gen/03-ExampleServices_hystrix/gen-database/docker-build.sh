@@ -1,2 +1,2 @@
 mvn package
-docker build -t orcaselite/examples_gen-database-hystrix .
+docker build -t orcaselite/examples_gen-database .

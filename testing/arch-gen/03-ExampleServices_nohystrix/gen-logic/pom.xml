@@ -9,7 +9,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<version>1.2.5</version>
 	<packaging>jar</packaging>
 
-	<name>logic</name>
+	<name>logic-nohystrix</name>
 	<description></description>
 
 	<parent>

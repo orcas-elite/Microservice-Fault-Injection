@@ -6,7 +6,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.portal</groupId>
-    <artifactId>portal</artifactId>
+    <artifactId>portal-nohystrix</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
