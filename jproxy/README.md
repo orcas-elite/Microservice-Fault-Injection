@@ -73,8 +73,8 @@ Input:
   "enabled": true,
   "probability": 1.00,
   "delayTimeDistribution": "UniformRealDistribution",
-  "delayTimeMean": 2000,
-  "delayTimeRangeSd": 8000
+  "delayTimeMean": 4000,
+  "delayTimeRangeSd": 1000
 }
 ```
 Output:
