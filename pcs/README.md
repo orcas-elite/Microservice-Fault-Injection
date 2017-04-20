@@ -34,7 +34,7 @@ For the data format for the json payloads see the classes in `de.uni_stuttgart.i
 
 ## Example
 
-```python3
+```python
 import requests
 
 # add/refresh proxy
