@@ -1,7 +1,7 @@
-nginx:
-    image: nginx
+server:
+    image: orcaselite/microbench-server
     ports:
-        - "8080:80"
+        - "5000:5000"
     volumes:
         - ./html:/usr/share/nginx/html
 influxdb:
@@ -23,7 +23,7 @@ pcs:
       - grafana
 jproxy:
     image: orcaselite/jproxy
-    command: java -jar ./jproxy.jar 8089 8090 http://nginx:80/ NginxProxy http://pcs:9090/proxy http://influxdb:8086
+    command: java -jar ./jproxy.jar 8089 8090 http://server:5000/ NginxProxy http://pcs:9090/proxy http://influxdb:8086
     links:
       - nginx
       - pcs
