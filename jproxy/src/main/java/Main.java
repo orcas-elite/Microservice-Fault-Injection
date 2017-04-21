@@ -1,4 +1,9 @@
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.UUID;
 
 import org.eclipse.jetty.server.Server;
@@ -28,6 +33,12 @@ public class Main {
 			showHelp();
 			return;
 		}
+		
+		Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+		logger.info("--- Start Network interfaces ---");
+        for (NetworkInterface netint : Collections.list(nets))
+            logInterfaceInformation(netint);
+		logger.info("--- End Network interfaces ---");
 
 		Proxy proxy = null;
 		Server proxyControlServer = null;
@@ -84,6 +95,16 @@ public class Main {
 				proxy.destroy();
 		}
 	}
+	
+	static void logInterfaceInformation(NetworkInterface netint) throws SocketException {
+		StringBuilder sb = new StringBuilder();
+		sb.append(netint.getDisplayName() + "(" + netint.getName() + "): ");
+        Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+        	sb.append(inetAddress + ", ");
+        }
+        logger.info(sb.toString());
+     }
 	
 	private static InfluxDB connectToDatabase(String influxdbUrl) {
 		try {
