@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-    return jsonify(result=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(2 ** 16)))
+    return jsonify(result=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(2 ** 10)))
 
 
 if __name__ == '__main__':

@@ -14,7 +14,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Path("/proxy")
@@ -32,6 +34,10 @@ public class ProxyResource {
 
 	Stream<Proxy> getByTag(@Nonnull String tag) {
 		return proxy_map.asMap().values().stream().filter(proxy -> proxy.getId().equals(tag));
+	}
+
+	Map<String, Set<String>> getTags() {
+		return proxy_map.asMap().values().stream().collect(Collectors.groupingBy(Proxy::getId, Collectors.mapping(Proxy::getUuid, Collectors.toSet())));
 	}
 
 	@POST

@@ -7,4 +7,4 @@ execution:
 scenarios:
   test-direct:
     requests:
-    - http://localhost:8080
+    - http://localhost:5000

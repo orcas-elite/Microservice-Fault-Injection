@@ -102,6 +102,6 @@
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" name="Maven: io.dropwizard.metrics:metrics-httpclient:3.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.connectors:jersey-apache-connector:2.25.1" level="project" />
-    <orderEntry type="module" module-name="proxy-commons" />
+    <orderEntry type="library" name="Maven: de.uni-stuttgart.informatik.rss.msinject:proxy-commons:0.0.1-SNAPSHOT" level="project" />
   </component>
 </module>
