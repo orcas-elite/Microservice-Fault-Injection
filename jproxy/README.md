@@ -2,7 +2,7 @@
 
 ## Overview
 
-HTTP proxy supporting drop, delay (and more coming soon) for requests.
+HTTP proxy supporting drop, delay and nlane bridge for requests.
 Written in java, based on jetty and jersey.
 
 Each Proxy has an ID identifying its role in the system. Furthermore each proxy has a random UUID assigned at startup.
