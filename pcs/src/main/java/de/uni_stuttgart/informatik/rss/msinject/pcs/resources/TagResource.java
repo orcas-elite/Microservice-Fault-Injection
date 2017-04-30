@@ -1,78 +1,83 @@
 package de.uni_stuttgart.informatik.rss.msinject.pcs.resources;
 
-import com.google.common.base.Optional;
-import de.uni_stuttgart.informatik.rss.msinject.pcs.models.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import javax.ws.rs.POST;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import com.google.common.base.Optional;
+
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.Proxy;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDelayConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyDropConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyMetricsConfig;
+import de.uni_stuttgart.informatik.rss.msinject.pcs.models.ProxyNLaneConfig;
 
 @Path("/tag")
 @Produces(MediaType.APPLICATION_JSON)
 public class TagResource {
 
-	private final ProxyResource proxyResource;
+    private final ProxyResource proxyResource;
 
-	public TagResource(ProxyResource proxyResource) {
-		this.proxyResource = proxyResource;
-	}
+    public TagResource(ProxyResource proxyResource) {
+        this.proxyResource = proxyResource;
+    }
 
-	@GET
-	public Map<String, Set<String>> getTags() {
-		return proxyResource.getTags();
-	}
+    @GET
+    public Map<String, Set<String>> getTags() {
+        return proxyResource.getTags();
+    }
 
-	@POST
-	@Path("/{tag}/delay")
-	public Map<String, Boolean> setDelayConfig(@PathParam("tag") String tag, ProxyDelayConfig delayConfig) {
+    @POST
+    @Path("/{tag}/delay")
+    public Map<String, Boolean> setDelayConfig(@PathParam("tag") String tag, ProxyDelayConfig delayConfig) {
 
-		Stream<Proxy> proxies = proxyResource.getByTag(tag);
+        Stream<Proxy> proxies = proxyResource.getByTag(tag);
 
-		return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
-			Optional<Boolean> r = proxyResource.setDelayConfig(p.getUuid(), delayConfig);
-			return r.or(false);
-		}));
-	}
+        return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
+            Optional<Boolean> r = proxyResource.setDelayConfig(p.getUuid(), delayConfig);
+            return r.or(false);
+        }));
+    }
 
-	@POST
-	@Path("/{tag}/drop")
-	public Map<String, Boolean> setDropConfig(@PathParam("tag") String tag, ProxyDropConfig dropConfig) {
+    @POST
+    @Path("/{tag}/drop")
+    public Map<String, Boolean> setDropConfig(@PathParam("tag") String tag, ProxyDropConfig dropConfig) {
 
-		Stream<Proxy> proxies = proxyResource.getByTag(tag);
+        Stream<Proxy> proxies = proxyResource.getByTag(tag);
 
-		return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
-			Optional<Boolean> r = proxyResource.setDropConfig(p.getUuid(), dropConfig);
-			return r.or(false);
-		}));
-	}
+        return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
+            Optional<Boolean> r = proxyResource.setDropConfig(p.getUuid(), dropConfig);
+            return r.or(false);
+        }));
+    }
 
-	@POST
-	@Path("/{tag}/nlane")
-	public Map<String, Boolean> setNLaneConfig(@PathParam("tag") String tag, ProxyNLaneConfig nLaneConfig) {
-		Stream<Proxy> proxies = proxyResource.getByTag(tag);
+    @POST
+    @Path("/{tag}/nlane")
+    public Map<String, Boolean> setNLaneConfig(@PathParam("tag") String tag, ProxyNLaneConfig nLaneConfig) {
+        Stream<Proxy> proxies = proxyResource.getByTag(tag);
 
-		return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
-			Optional<Boolean> r = proxyResource.setNLaneConfig(p.getUuid(), nLaneConfig);
-			return r.or(false);
-		}));
-	}
+        return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
+            Optional<Boolean> r = proxyResource.setNLaneConfig(p.getUuid(), nLaneConfig);
+            return r.or(false);
+        }));
+    }
 
-	@POST
-	@Path("/{tag}/metrics")
-	public Map<String, Boolean> setMetricsConfig(@PathParam("tag") String tag, ProxyMetricsConfig metricsConfig) {
-		Stream<Proxy> proxies = proxyResource.getByTag(tag);
+    @POST
+    @Path("/{tag}/metrics")
+    public Map<String, Boolean> setMetricsConfig(@PathParam("tag") String tag, ProxyMetricsConfig metricsConfig) {
+        Stream<Proxy> proxies = proxyResource.getByTag(tag);
 
-		return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
-			Optional<Boolean> r = proxyResource.setMetricsConfig(p.getUuid(), metricsConfig);
-			return r.or(false);
-		}));
-	}
+        return proxies.collect(Collectors.toMap(Proxy::getUuid, p -> {
+            Optional<Boolean> r = proxyResource.setMetricsConfig(p.getUuid(), metricsConfig);
+            return r.or(false);
+        }));
+    }
 }
