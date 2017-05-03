@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: logic
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: logic
+    spec:
+      containers:
+      - args:
+        - java
+        - -jar
+        - ./jproxy.jar
+        - "8089"
+        - "8081"
+        - http://localhost:8080/
+        - LogicProxy
+        - http://pcs:9090/proxy
+        - http://influxdb:8086
+        image: orcaselite/jproxy
+        name: logic
+        resources: {}
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        
+      - image: orcaselite/examples_gen-logic
+        name: logicreal
+        resources: {}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+status: {}

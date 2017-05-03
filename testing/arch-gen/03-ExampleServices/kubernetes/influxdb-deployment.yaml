@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: influxdb
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: influxdb
+    spec:
+      containers:
+      - image: influxdb:latest
+        name: influxdb
+        ports:
+        - containerPort: 8086
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+status: {}
